@@ -1,2 +1,4 @@
 ._maps
 .DS_Store
+.vscode*
+.nfs*

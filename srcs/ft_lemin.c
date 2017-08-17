@@ -6,7 +6,7 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/16 10:46:41 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/08/16 14:42:49 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/08/16 19:22:10 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,72 +29,65 @@ int		main(int argc, char **argv)
 void	setup_map(char **line)
 {
 	t_map	*map;
+	t_node	*head;
+	t_node	*node;
 
 	map = ft_memalloc(sizeof(t_map));
 	get_next_line(0, line);
 	map->n_ants = ft_atoi(*line);
 	ft_printf("# of ants = %d\n\n", map->n_ants);
+	map->node_num = 0;
 	while (get_next_line(0, line))
 	{
-		map->node = ft_memalloc(sizeof(t_node));
-		clear_node(map);
+		if (map->node_num == 0)
+			head = node_list(map, head, 1);
+		node = node_list(map, head, 0);
+		// clear_node(map);
 		if (ft_strstr(*line, "##"))
-			commands(line, map);
+			commands(line, node);
 		else if (ft_strstr(*line, "#"))
+		{
+			map->node_num--;
 			comments(line, map);
+		}
 		else if (ft_strstr(*line, "-"))
-			links(line, map);
+			links(line, node);
 		else
-			rooms(line, map);
+			rooms(line, node);
+		map->node_num++;
 	}
-}
-
-void	links(char **line, t_map *map)
-{
-	(void)**line;
-	(void)*map;
-	return ;
-}
-
-void	clear_node(t_map *map)
-{
-
-	map->node->x_coord = -1;
-	map->node->y_coord = -1;
-	map->node->is_full = FALSE;
-	map->node->is_start = FALSE;
-	map->node->is_end = FALSE;
-}
-
-void	print_node(t_map *map)
-{
-	ft_printf("node name = %s\n", map->node->name);
-	ft_printf("node coords = (%d, %d)\n", map->node->x_coord, map->node->y_coord);
-	ft_printf("node is start = %d\n", (int)map->node->is_start);
-	ft_printf("node is end = %d\n\n", (int)map->node->is_end);
-}
-
-void	commands(char **line, t_map *map)
-{
-	// map->node = ft_memalloc(sizeof(t_node));
-	if (!(ft_strstr(*line, "##start") || ft_strstr(*line, "##end")))
-		return ;
-	else if (ft_strstr(*line, "start"))
+	while (head)
 	{
-		get_next_line(0, line);
-		map->node->is_start = TRUE;
-		rooms(line, map);
+		print_node(head);
+		head = head->next;
 	}
-	else if (ft_strstr(*line, "end"))
-	{
-		get_next_line(0, line);
-		map->node->is_end = TRUE;
-		rooms(line, map);
-	}
-
 }
 
-void	rooms(char **line, t_map *map)
+t_node	*node_list(t_map *map, t_node *head, int status)
+{
+	t_node	*node;
+	int		node_num;
+
+	node_num = map->node_num;
+	if (node_num == 0 && status)
+	{
+		node = ft_memalloc(sizeof(t_node));
+		node->node_num = node_num;
+		node->next = NULL;
+		return (node);
+	}
+	while (node_num != head->node_num && head->next != NULL)
+		head = head->next;
+	if (node_num == head->node_num)
+		return (head);
+	node = ft_memalloc(sizeof(t_node));
+	node->node_num = node_num;
+	head->next = node;
+	node->next = NULL;
+	return (node);
+}
+
+void	rooms(char **line, t_node *node)
 {
 	int		name_len;
 	char	*name;
@@ -102,17 +95,61 @@ void	rooms(char **line, t_map *map)
 
 	name = ft_word_copy(*line, ' ');
 	name_len = ft_strlen(name) + 1;
-	map->node->name = ft_memalloc(sizeof(char) * name_len);
-	map->node->name = name;
+	node->name = ft_memalloc(sizeof(char) * name_len);
+	node->name = name;
 	*line += name_len;
-	map->node->x_coord = ft_atoi(*line);
-	count = ft_count_digits(map->node->x_coord) + 1;
+	node->x_coord = ft_atoi(*line);
+	count = ft_count_digits(node->x_coord) + 1;
 	*line += count;
-	map->node->y_coord = ft_atoi(*line);
-	count += ft_count_digits(map->node->y_coord);
-	line -= name_len + count;
-	print_node(map);
+	node->y_coord = ft_atoi(*line);
+	count += ft_count_digits(node->y_coord);
+	*line -= name_len + count;
 }
+
+void	links(char **line, t_node *node)
+{
+	(void)**line;
+	(void)*node;
+	return ;
+}
+
+void	clear_node(t_map *map)
+{
+	map->node->x_coord = -1;
+	map->node->y_coord = -1;
+	map->node->is_full = FALSE;
+	map->node->is_start = FALSE;
+	map->node->is_end = FALSE;
+}
+
+void	print_node(t_node *node)
+{
+	ft_printf("node name = %s\n", node->name);
+	ft_printf("node coords = (%d, %d)\n", node->x_coord, node->y_coord);
+	ft_printf("node is start = %d\n", (int)node->is_start);
+	ft_printf("node is end = %d\n\n", (int)node->is_end);
+}
+
+void	commands(char **line, t_node *node)
+{
+	// map->node = ft_memalloc(sizeof(t_node));
+	if (!(ft_strstr(*line, "##start") || ft_strstr(*line, "##end")))
+		return ;
+	else if (ft_strstr(*line, "start"))
+	{
+		get_next_line(0, line);
+		node->is_start = TRUE;
+		rooms(line, node);
+	}
+	else if (ft_strstr(*line, "end"))
+	{
+		get_next_line(0, line);
+		node->is_end = TRUE;
+		rooms(line, node);
+	}
+}
+
+
 
 void	comments(char **line, t_map *map)
 {
