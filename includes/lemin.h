@@ -47,13 +47,13 @@ typedef struct		s_map
 }					t_map;
 
 void	get_nodes(char **line, t_map *map);
-void	commands(char **line, t_node *node);
+void	commands(char **line, t_node *node, t_map *map);
 void	get_ants(char **line);
-void	set_nodes(char **line, t_node *node);
+void	set_nodes(char **line, t_node *node, t_map *map);
 void	comments(char **line, t_map *map);
 void	clear_node(t_map *map);
 void	set_links(char **line, t_map *map, t_node *head, t_node *node);
-t_node	*node_list(t_map *map, t_node *head);
+t_node	*node_list(char **line, t_map *map, t_node *head);
 t_node	*link_list(t_map *map, t_node *head_link);
 void	print_nodes(t_node *node);
 void	first_link(char **line, t_map *map, t_node *link, t_node *node);
