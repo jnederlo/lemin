@@ -74,9 +74,10 @@ void	first_link(char **line, t_map *map, t_node *link, t_node *node)
 	char	*node_name;
 	char	*link_name;
 	t_node	*link_head;
-	// t_node	*link_node;
-
+	t_node	*head;
+	
 	node = link;
+	head = link;
 	node_name = ft_word_copy(*line, '-');
 	*line += ft_strlen(node_name) + 1;
 	link_name = ft_strdup(*line);
@@ -88,7 +89,7 @@ void	first_link(char **line, t_map *map, t_node *link, t_node *node)
 	node->next_link = link_list(map, link_head);
 	map->link_num++;
 	*line -= ft_strlen(node_name) + 1;
-	set_links(line, map, link, node);
+	set_links(line, map, head, node);
 }
 
 void	set_links(char **line, t_map *map, t_node *link, t_node *node)
@@ -96,12 +97,14 @@ void	set_links(char **line, t_map *map, t_node *link, t_node *node)
 	char	*node_name;
 	char	*link_name;
 	t_node	*link_head;
-	// t_node	*link_node;
+	t_node	*head;
 
-	node = link;
+	head = link;
 	// ft_printf("node->name = %s\n\n", node->name);
 	while (get_next_line(0, line))
 	{
+		link = head;
+		node = head;
 		// ft_printf("line = %s\n", *line);
 		node_name = ft_word_copy(*line, '-');
 		*line += ft_strlen(node_name) + 1;
@@ -110,7 +113,7 @@ void	set_links(char **line, t_map *map, t_node *link, t_node *node)
 			node = node->next;
 		while (ft_strcmp(link->name, link_name) && link->next != NULL)
 			link = link->next;
-		if (node->next_link == NULL)
+		// if (link_head == NULL)
 			link_head = link;
 		node->next_link = link_list(map, link_head);
 		// ft_printf("link_node->name = %s\n", link_node->name);
@@ -201,8 +204,11 @@ void	print_nodes(t_node *node)
 		ft_printf("node coords = (%d, %d)\n", node->x_coord, node->y_coord);
 		ft_printf("node is start = %d\n", (int)node->is_start);
 		ft_printf("node is end = %d\n", (int)node->is_end);
-		if (node->next_link)
+		while (node->next_link)
+		{
 			printf("link name = %s\n", node->next_link->name);
+			node->next_link = node->next_link->next_link;
+		}
 		ft_printf("\n");
 		node = node->next;
 	}
