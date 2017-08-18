@@ -6,7 +6,7 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/16 10:21:10 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/08/16 19:22:17 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/08/17 21:55:55 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,10 @@ typedef struct		s_node
 	t_bool			is_end;
 	char			*name;
 	int				node_num;
+	int				link_num;
+	struct s_node	*next_link;
 	struct s_node	*next;
+
 }					t_node;
 
 typedef struct		s_map
@@ -40,15 +43,18 @@ typedef struct		s_map
 	t_node		*node;
 	char		*note;
 	int			node_num;
+	int			link_num;
 }					t_map;
 
-void	setup_map(char **line);
+void	get_nodes(char **line, t_map *map);
 void	commands(char **line, t_node *node);
-void	rooms(char **line, t_node *node);
+void	get_ants(char **line);
+void	set_nodes(char **line, t_node *node);
 void	comments(char **line, t_map *map);
 void	clear_node(t_map *map);
-void	links(char **line, t_node *node);
-t_node	*node_list(t_map *map, t_node *head, int status);
-void	print_node(t_node *node);
-
+void	set_links(char **line, t_map *map, t_node *head, t_node *node);
+t_node	*node_list(t_map *map, t_node *head);
+t_node	*link_list(t_map *map, t_node *head_link);
+void	print_nodes(t_node *node);
+void	first_link(char **line, t_map *map, t_node *link, t_node *node);
 #endif
