@@ -6,7 +6,7 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/16 10:21:10 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/08/17 21:55:55 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/08/19 10:43:35 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ typedef enum	e_bool
 	TRUE
 }				t_bool;
 
+
+
 typedef struct		s_node
 {
 	int				x_coord;
@@ -31,11 +33,19 @@ typedef struct		s_node
 	t_bool			is_end;
 	char			*name;
 	int				node_num;
-	int				link_num;
-	struct s_node	*next_link;
+	int				num_links;
+	struct s_link	*link;
 	struct s_node	*next;
 
 }					t_node;
+
+typedef struct		s_link
+{
+	int				link_num;
+	t_node			*node;
+	struct s_link	*next;
+
+}					t_link;
 
 typedef struct		s_map
 {
@@ -43,7 +53,6 @@ typedef struct		s_map
 	t_node		*node;
 	char		*note;
 	int			node_num;
-	int			link_num;
 }					t_map;
 
 void	get_nodes(char **line, t_map *map);
@@ -52,9 +61,12 @@ void	get_ants(char **line);
 void	set_nodes(char **line, t_node *node, t_map *map);
 void	comments(char **line, t_map *map);
 void	clear_node(t_map *map);
-void	set_links(char **line, t_map *map, t_node *head, t_node *node);
+void	set_link(char **line, t_node *head, t_node *node);
 t_node	*node_list(char **line, t_map *map, t_node *head);
-t_node	*link_list(t_map *map, t_node *head_link);
+t_link	*link_list(t_node *node, t_link *link);
 void	print_nodes(t_node *node);
-void	first_link(char **line, t_map *map, t_node *link, t_node *node);
+void	first_link(char **line, t_node *head, t_node *node);
+t_node	*traverse_list(t_node *node, char *name);
+void	reverse_link(t_node *node, t_node *head);
+void	next_link(char **line, t_node *head, t_node *node, t_node *copy);
 #endif
