@@ -6,7 +6,7 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/16 10:46:41 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/08/19 10:44:54 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/08/19 22:09:04 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,35 +16,34 @@
 int		main(int argc, char **argv)
 {
 	char	*line;
+	t_map	*map;
 
+	map = ft_memalloc(sizeof(t_map));
 	(void)argc;
 	// if (argc != 2)
 	// 	return (ft_printf("Error\n"));
 	line = argv[1];
-	get_ants(&line);
+	parse_input(&line, map);
 	// print_nodes(head);
 
 
 	return (0);
 }
 
-void	get_ants(char **line)
+void	get_ants(char **line, t_map *map)
 {
-	t_map	*map;
-
-	map = ft_memalloc(sizeof(t_map));
 	get_next_line(0, line);
 	map->n_ants = ft_atoi(*line);
 	ft_printf("# of ants = %d\n\n", map->n_ants);
-	get_nodes(line, map);
 }
 
-void	get_nodes(char **line, t_map *map)
+void	parse_input(char **line, t_map *map)
 {
 	t_node	*node;
 	t_node	*head;
 
 	head = NULL;
+	get_ants(line, map);
 	while (get_next_line(0, line))
 	{
 		if (head == NULL)
@@ -65,139 +64,175 @@ void	get_nodes(char **line, t_map *map)
 		return ;
 	}
 	set_link(line, head, node);
+	// set_distance(map->end, map);
+	set_distance(map);
 	print_nodes(head);
 }
 
-void	set_link(char **line, t_node *head, t_node *node)
+// void	set_distance(t_node *node, t_map *map)
+// {
+
+// 	if (node->is_start)
+// 	while ()
+
+
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// void	set_queue(t_map *map)
+// {
+// 	t_queue	*q_head;
+// 	t_queue	*q_tail;
+// 	t_link	*fuck;
+// 	int distance;
+	
+// 	distance = 1;
+// 	fuck = map->end->link;
+// 	q_head = NULL;
+// 	q_tail = NULL;
+// 	while (fuck)
+// 	{
+// 		enqueue(fuck->node, &q_head, &q_tail);
+// 		if (!q_tail->node->is_set)
+// 		{
+// 			q_tail->node->distance = distance;
+// 			q_tail->node->is_set = TRUE;
+// 		}
+// 		// new_queue(q_tail->node);
+// 		distance++;
+// 		fuck = fuck->node->link;
+// 	}
+// }
+
+void	set_distance(t_map *map)
 {
-	char	*node_name;
-	char	*link_name;
-	t_link	*link;
-	t_node	*copy;
+	t_queue	*q_head;
+	t_queue *q_distance;
+	t_queue	*p;
+	int distance;
 
-	copy = head;
-	node_name = ft_word_copy(*line, '-');
-	*line += ft_strlen(node_name) + 1;
-	link_name = ft_strdup(*line);
-	head = traverse_list(head, node_name);
-	node = traverse_list(node, link_name);
-	head->num_links++;
-	link = link_list(head, head->link);
-	link->node = node;
-	if (head->num_links == 1)
-		head->link = link;
-	*line -= ft_strlen(node_name) + 1;
-	reverse_link(head, node);
-	next_link(line, head, node, copy);
-}
-
-void	reverse_link(t_node *node, t_node *head)
-{
-	t_link	*link;
-
-	head->num_links++;
-	link = link_list(head, head->link);
-	link->node = node;
-	if (head->num_links == 1)
-		head->link = link;
-}
-
-void	next_link(char **line, t_node *head, t_node *node, t_node *copy)
-{
-	while (get_next_line(0, line))
+	distance = 0;
+	q_head = ft_memalloc(sizeof(t_queue));
+	q_head->node = map->end;
+	q_head->next = NULL;
+	q_head->node->distance = distance;
+	distance++;
+	q_distance = q_head;
+	while (q_distance != NULL)
 	{
-		head = copy;
-		node = copy;
-		set_link(line, head, node);
+		q_distance = depth(q_head);
+		p = q_distance;
+		while (p != NULL)
+		{
+			p->node->distance = distance;
+			p = p->next;
+		}
+		q_head = q_distance;
+		distance++;
 	}
 }
 
-t_node	*traverse_list(t_node *node, char *name)
+t_queue	*depth(t_queue *head)
 {
-	while (ft_strcmp(node->name, name) && node->next != NULL)
-		node = node->next;
-	return (node);
-}
-
-t_link	*link_list(t_node *node, t_link *link)
-{
-	t_link	*link_node;
-	int		num_links;
-
-	num_links = node->num_links;
-	if (link == NULL)
-	{
-		link_node = ft_memalloc(sizeof(t_node));
-		link_node->link_num = num_links;
-		link_node->next = NULL;
-		return (link_node);
-	}
-	while (num_links != link->link_num && link->next != NULL)
-		link = link->next;
-	if (num_links == link->link_num)
-		return (link);
-	link_node = ft_memalloc(sizeof(t_link));
-	link_node->link_num = num_links;
-	link->next = link_node;
-	link_node->next = NULL;
-	return (link_node);
-}
-
-t_node	*node_list(char **line, t_map *map, t_node *head)
-{
+	// need to iterate through the head queue, get each child,
+	//  and add each one to depth queue
+	t_queue	*depth;
+	t_queue	*q_head;
+	t_link	*parent;
 	t_node	*node;
-	int		node_num;
 
-	if (ft_strstr(*line, "-"))
-		return (head);
-	node_num = map->node_num;
-	if (head == NULL)
+	depth = NULL;
+	q_head = NULL;
+	while (head != NULL)
 	{
-		node = ft_memalloc(sizeof(t_node));
-		node->node_num = node_num;
-		node->next = NULL;
-		return (node);
-	}
-	while (node_num != head->node_num && head->next != NULL)
+		parent = head->node->link;
+		if (depth == NULL)
+		{
+			depth = ft_memalloc(sizeof(t_queue));
+			depth->node = get_next_child(parent);
+			if (depth->node == NULL)
+				return (NULL);
+			depth->next = NULL;
+			q_head = depth;
+		}
+		while ((node = get_next_child(parent)))
+		{	
+			depth->next = ft_memalloc(sizeof(t_queue));
+			depth = depth->next;
+			depth->node = node;
+			depth->next = NULL;
+		}
 		head = head->next;
-	if (node_num == head->node_num)
-		return (head);
-	node = ft_memalloc(sizeof(t_node));
-	node->node_num = node_num;
-	head->next = node;
-	node->next = NULL;
-	return (node);
+	}
+	return (q_head);
 }
 
-void	set_nodes(char **line, t_node *node, t_map *map)
+t_node *get_next_child(t_link *parent)
 {
-	int		name_len;
-	char	*name;
-	int		count;
-
-	name = ft_word_copy(*line, ' ');
-	name_len = ft_strlen(name) + 1;
-	node->name = ft_memalloc(sizeof(char) * name_len);
-	node->name = name;
-	*line += name_len;
-	node->x_coord = ft_atoi(*line);
-	count = ft_count_digits(node->x_coord) + 1;
-	*line += count;
-	node->y_coord = ft_atoi(*line);
-	count += ft_count_digits(node->y_coord);
-	node->link = NULL;
-	*line -= name_len + count;
-	map->node_num++;
+	while (parent != NULL)
+	{
+		if (parent->node->is_set == FALSE)
+		{
+			parent->node->is_set = TRUE;
+			return (parent->node);
+		}
+		parent = parent->next;
+	}
+	return (NULL);
 }
 
-void	clear_node(t_map *map)
-{
-	map->node->x_coord = -1;
-	map->node->y_coord = -1;
-	map->node->is_full = FALSE;
-	map->node->is_start = FALSE;
-	map->node->is_end = FALSE;
-}
+// void	new_queue(t_node *node)
+// {
+// 	t_queue	*q_head;
+// 	t_queue	*q_tail;
+
+// 	q_head = NULL;
+// 	q_tail = NULL;
+// 	while (node->link->node)
+// 	{
+// 		enqueue(node->link->node, &q_head, &q_tail);
+// 		if (!q_tail->node->is_end && !q_tail->node->is_set)
+// 		{
+// 			q_tail->node->distance = node->distance + 1;
+// 			q_tail->node->is_set = TRUE;
+// 		}
+// 		node->link->node = node->link->next->node;
+// 	}
+// }
+
+
+// void	enqueue(t_node *node, t_queue **q_head, t_queue **q_tail)
+// {
+// 	t_queue	*temp;
+
+// 	temp = ft_memalloc(sizeof(t_queue));
+// 	temp->node = node;
+// 	temp->next = NULL;
+// 	if (*q_head == NULL && *q_tail == NULL)
+// 	{
+// 		*q_head = temp;
+// 		*q_tail = temp;
+// 		return ;
+// 	}
+// 	(*q_tail)->next = temp;
+// 	*q_tail = temp;
+// }
 
 void	print_nodes(t_node *node)
 {
@@ -210,6 +245,8 @@ void	print_nodes(t_node *node)
 		ft_printf("node coords = (%d, %d)\n", node->x_coord, node->y_coord);
 		ft_printf("node is start = %d\n", (int)node->is_start);
 		ft_printf("node is end = %d\n", (int)node->is_end);
+		ft_printf("node distance = %d\n", node->distance);
+		ft_printf("is set = %d\n", (int)node->is_set);
 		while (node->link && num_links < node->num_links)
 		{
 			ft_printf("link name = %s\n", node->link->node->name);
@@ -236,6 +273,8 @@ void	commands(char **line, t_node *node, t_map *map)
 	{
 		get_next_line(0, line);
 		node->is_end = TRUE;
+		node->is_set = TRUE;
+		node->distance = 0;
 		set_nodes(line, node, map);
 	}
 }
