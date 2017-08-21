@@ -6,7 +6,7 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/16 10:21:10 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/08/19 21:10:45 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/08/20 15:09:35 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void	first_link(char **line, t_node *head, t_node *node);
 t_node	*traverse_list(t_node *node, char *name);
 void	reverse_link(t_node *node, t_node *head);
 void	next_link(char **line, t_node *head, t_node *node, t_node *copy);
+int		is_duplicate(t_node *head, t_node *node);
 
 void	new_queue(t_node *node);
 void	set_queue(t_map *map);

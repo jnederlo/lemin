@@ -6,7 +6,7 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/16 10:46:41 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/08/19 22:09:04 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/08/20 18:54:05 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,33 +64,9 @@ void	parse_input(char **line, t_map *map)
 		return ;
 	}
 	set_link(line, head, node);
-	// set_distance(map->end, map);
 	set_distance(map);
 	print_nodes(head);
 }
-
-// void	set_distance(t_node *node, t_map *map)
-// {
-
-// 	if (node->is_start)
-// 	while ()
-
-
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -140,7 +116,8 @@ void	set_distance(t_map *map)
 		p = q_distance;
 		while (p != NULL)
 		{
-			p->node->distance = distance;
+			if (p->node != NULL)
+				p->node->distance = distance;
 			p = p->next;
 		}
 		q_head = q_distance;
@@ -161,13 +138,18 @@ t_queue	*depth(t_queue *head)
 	q_head = NULL;
 	while (head != NULL)
 	{
+		if (head->node == NULL)
+		{
+			head = head->next;
+			continue ;
+		}
 		parent = head->node->link;
 		if (depth == NULL)
 		{
 			depth = ft_memalloc(sizeof(t_queue));
 			depth->node = get_next_child(parent);
-			if (depth->node == NULL)
-				return (NULL);
+			// if (depth->node == NULL)
+			// 	return (NULL);
 			depth->next = NULL;
 			q_head = depth;
 		}

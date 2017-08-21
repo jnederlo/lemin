@@ -6,7 +6,7 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/19 15:18:01 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/08/19 15:19:07 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/08/20 17:09:21 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	set_link(char **line, t_node *head, t_node *node)
 	t_link	*link;
 	t_node	*copy;
 
+	if (**line == '\n')
+		return ;
 	copy = head;
 	node_name = ft_word_copy(*line, '-');
 	*line += ft_strlen(node_name) + 1;
@@ -34,6 +36,24 @@ void	set_link(char **line, t_node *head, t_node *node)
 	reverse_link(head, node);
 	next_link(line, head, node, copy);
 }
+
+// int		is_duplicate(t_node *head, t_node *node)
+// {
+// 	t_node	*head_copy;
+// 	t_node	*node_copy;
+// 	t_link	*link_copy;
+
+// 	head_copy = head;
+// 	node_copy = node;
+// 	link_copy = head_copy->link;
+// 	while (link_copy)
+// 	{
+// 		if (link_copy->node == node_copy)
+// 			return (1);
+// 		link_copy = link_copy->next;
+// 	}
+// 	return (0);
+// }
 
 void	reverse_link(t_node *node, t_node *head)
 {
