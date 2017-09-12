@@ -6,7 +6,7 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/16 10:46:41 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/08/21 20:02:01 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/09/11 17:57:02 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	get_ants(char **line, t_map *map)
 {
 	get_next_line(0, line);
 	map->n_ants = ft_atoi(*line);
-	ft_printf("# of ants = %d\n\n", map->n_ants);
+	ft_printf("%d\n", map->n_ants);
 }
 
 void	parse_input(char **line, t_map *map)
@@ -65,88 +65,111 @@ void	parse_input(char **line, t_map *map)
 	}
 	set_link(line, head, node);
 	set_distance(map);
-	print_nodes(head);
+	while (map->n_ants > 0)
+		march(map, head, node);
+
+	// print_nodes(head);
+}
+
+void	march(t_map *map, t_node *head, t_node *node)
+{
+	t_link	*temp;
+	int		i;
+	
+	// ft_printf("\n");
+	// ft_printf("head name = %s\n", head->name);
+	// ft_printf("num ants at head = %d\n", head->num_ants);
+	(void)node;
+	while (head)
+	{
+		temp = head->link;
+		i = 1;
+		while (temp)
+		{
+			if (head->num_ants > 0 && temp->node->distance < head->distance && temp->node->was_visited == FALSE)
+			{
+				head->num_ants--;
+				head->is_full = FALSE;
+				temp->node->num_ants++;
+				temp->node->is_full = TRUE;
+				temp->node->was_visited = TRUE;
+				if (temp->node->is_end == TRUE)
+				{
+					map->n_ants--;
+					// ft_printf("\nnum ants left = %d\n", map->n_ants);
+				}
+				i > 1 ? ft_printf(" ") : 0;
+				ft_printf("L%d-%s", i, temp->node->name);
+				// temp->next == NULL ? ft_printf("\n") : 0;
+				i++;
+			}
+			temp = temp->next;
+		}
+		head = head->next;
+	}
 }
 
 void	set_distance(t_map *map)
 {
-	t_queue	*q_head;
-	t_queue *q_distance;
-	t_queue	*p;
-	int distance;
+	t_node	*current;
+	t_queue	*front;
+	t_queue	*rear;
+	t_link	*temp;
 
-	distance = 0;
-	q_head = ft_memalloc(sizeof(t_queue));
-	q_head->node = map->end;
-	q_head->next = NULL;
-	q_head->node->distance = distance;
-	distance++;
-	q_distance = q_head;
-	while (q_distance != NULL)
+	front = NULL;
+	rear = NULL;
+	current = map->end;
+	temp = current->link;
+	while (current)
 	{
-		q_distance = depth(q_head);
-		p = q_distance;
-		while (p != NULL)
+		temp = current->link;
+		while (temp && temp->node)
 		{
-			if (p->node != NULL)
-				p->node->distance = distance;
-			p = p->next;
+			if (temp->node->is_set == FALSE)
+				enqueue(&front, &rear, temp, current);
+			temp = temp->next;
 		}
-		q_head = q_distance;
-		distance++;
+		if (!front)
+			return ;
+		current = front->node;
+		dequeue(&front);
 	}
 }
 
-t_queue	*depth(t_queue *head)
+
+
+void	dequeue(t_queue **front)
 {
-	// need to iterate through the head queue, get each child,
-	//  and add each one to depth queue
-	t_queue	*depth;
-	t_queue	*q_head;
-	t_link	*parent;
+	t_queue	**temp;
+
+	if (*front != NULL)
+	{
+		temp = front;
+		*front = (*front)->next;
+	}
+}
+
+void	enqueue(t_queue **front, t_queue **rear, t_link *link, t_node *current)
+{
+	t_queue *new_node;
 	t_node	*node;
 
-	depth = NULL;
-	q_head = NULL;
-	while (head != NULL)
+	node = link->node;
+	new_node = ft_memalloc(sizeof(t_queue));
+	new_node->node = node;
+	node->distance = current->distance + 1;
+	node->is_set = TRUE;
+	new_node->next = NULL;
+	if (*front == NULL)
 	{
-		if (head->node == NULL)
-		{
-			head = head->next;
-			continue ;
-		}
-		parent = head->node->link;
-		if (depth == NULL)
-		{
-			depth = ft_memalloc(sizeof(t_queue));
-			depth->node = get_next_child(parent);
-			depth->next = NULL;
-			q_head = depth;
-		}
-		while ((node = get_next_child(parent)))
-		{	
-			depth->next = ft_memalloc(sizeof(t_queue));
-			depth = depth->next;
-			depth->node = node;
-			depth->next = NULL;
-		}
-		head = head->next;
+		*rear = new_node;
+		*front = *rear;
 	}
-	return (q_head);
-}
-
-t_node *get_next_child(t_link *parent)
-{
-	while (parent != NULL)
+	else
 	{
-		if (parent->node->is_set == FALSE)
-		{
-			parent->node->is_set = TRUE;
-			return (parent->node);
-		}
-		parent = parent->next;
+		(*rear)->next = new_node;
+		*rear = new_node;
 	}
-	return (NULL);
 }
 
 void	print_nodes(t_node *node)
@@ -179,12 +202,14 @@ void	commands(char **line, t_node *node, t_map *map)
 		return ;
 	else if (ft_strstr(*line, "start"))
 	{
+		ft_printf("##start\n");
 		get_next_line(0, line);
 		node->is_start = TRUE;
 		set_nodes(line, node, map);
 	}
 	else if (ft_strstr(*line, "end"))
 	{
+		ft_printf("##end\n");
 		get_next_line(0, line);
 		node->is_end = TRUE;
 		node->is_set = TRUE;
@@ -201,6 +226,6 @@ void	comments(char **line, t_map *map)
 	len = ft_strlen(*line);
 	map->note = ft_memalloc(sizeof(char) * len + 1);
 	map->note = ft_strcpy(map->note, *line);
-	ft_printf("comment = %s\n\n", map->note);
+	// ft_printf("comment = %s\n\n", map->note);
 }
 

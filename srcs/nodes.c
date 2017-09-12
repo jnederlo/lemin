@@ -6,12 +6,18 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/19 15:18:16 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/08/19 15:19:30 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/09/11 17:47:23 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
+
+/*
+** Sets up the linked list structure for the nodes as they are read in from
+** the input. It will then add nodes to the linked list as it continues
+** reading in from the input for each new node.
+*/
 t_node	*node_list(char **line, t_map *map, t_node *head)
 {
 	t_node	*node;
@@ -38,16 +44,27 @@ t_node	*node_list(char **line, t_map *map, t_node *head)
 	return (node);
 }
 
+/*
+** fills in the following struct fields for each node:
+**	- name
+**	- x_coord
+**	- y_coord
+**	- link
+**
+** increases the map->node_num count by 1 (used in node linked list).
+*/
 void	set_nodes(char **line, t_node *node, t_map *map)
 {
 	int		name_len;
 	char	*name;
 	int		count;
 
+	ft_printf("%s\n", *line);
 	name = ft_word_copy(*line, ' ');
 	name_len = ft_strlen(name) + 1;
 	node->name = ft_memalloc(sizeof(char) * name_len);
 	node->name = name;
+	node->num_ants = 0;
 	*line += name_len;
 	node->x_coord = ft_atoi(*line);
 	count = ft_count_digits(node->x_coord) + 1;
@@ -61,6 +78,7 @@ void	set_nodes(char **line, t_node *node, t_map *map)
 	if (node->is_start == TRUE)
 		map->start = node;
 	map->node_num++;
+	map->start->num_ants = map->n_ants;
 }
 
 void	clear_node(t_map *map)

@@ -6,7 +6,7 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/16 10:21:10 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/08/20 15:09:35 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/09/11 17:53:06 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,15 @@ typedef struct		s_node
 	int				x_coord;
 	int				y_coord;
 	t_bool			is_full;
+	t_bool			was_visited;
 	t_bool			is_start;
 	t_bool			is_end;
 	t_bool			is_set;
 	char			*name;
+	int				num_ants;
 	int				node_num;
 	int				num_links;
 	int				distance;
-	// struct s_node	*next_link;
 	struct s_link	*link;
 	struct s_node	*next;
 
@@ -54,7 +55,6 @@ typedef struct		s_queue
 {
 	t_node			*node;
 	struct s_queue	*next;
-
 }					t_queue;
 
 typedef struct		s_map
@@ -83,11 +83,15 @@ void	reverse_link(t_node *node, t_node *head);
 void	next_link(char **line, t_node *head, t_node *node, t_node *copy);
 int		is_duplicate(t_node *head, t_node *node);
 
-void	new_queue(t_node *node);
-void	set_queue(t_map *map);
-void	enqueue(t_node *node, t_queue **q_head, t_queue **q_tail);
 
 void	set_distance(t_map *map);
-t_queue	*depth(t_queue *head);
+t_queue	*depth(t_queue *head, t_queue *depth);
 t_node	*get_next_child(t_link *parent);
+
+void	enqueue(t_queue **front, t_queue **rear, t_link *link, t_node *current);
+void	dequeue(t_queue **front);
+int		queue_break(t_queue **front, t_queue **rear, int dist);
+
+void	march(t_map *map, t_node *head, t_node *node);
+
 #endif
