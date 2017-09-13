@@ -78,57 +78,52 @@ void	march(t_map *map, t_node *head, t_node *node)
 	t_link	*temp;
 	int		i;
 	int		k;
-	
-	// ft_printf("\n");
-	// ft_printf("head name = %s\n", head->name);
-	// ft_printf("num ants at head = %d\n", head->num_ants);
+
 	k = 0;
 	i = 1;
+	while (head)
+	{
 		while (head)
 		{
-			while (head)
-			{
-				if (head->was_visited == TRUE)
-					head = head->next;
-				else
-					break ;
-			}
-			if (head == NULL)
+			if (head->was_visited == TRUE)
+				head = head->next;
+			else
 				break ;
-			temp = head->link;
-			while (temp)
-			{
-				if (head->num_ants > 0 && temp->node->distance < head->distance && temp->node->was_visited == FALSE && temp->node->is_full == FALSE)
-				{
-					head->num_ants--;
-					head->is_full = FALSE;
-					temp->node->num_ants++;
-					temp->node->is_full = TRUE;
-					temp->node->was_visited = TRUE;
-					if (temp->node->is_end == TRUE)
-					{
-						map->n_ants--;
-						temp->node->is_full = FALSE;
-						// ft_printf("\nnum ants left = %d\n", map->n_ants);
-					}
-					i > 1 ? ft_printf(" ") : 0;
-					ft_printf("L%d-%s", i, temp->node->name);
-					// temp->next == NULL ? ft_printf("\n") : 0;
-					i++;
-				}
-				temp = temp->next;
-			}
-			head = head->next;
-			if (head == NULL && k == 0)
-			{
-				k++;
-				head = node;
-			}
 		}
-		
-		reset_node(node);
-		ft_printf("\n");
-		i = 1;
+		if (head == NULL)
+			break ;
+		temp = head->link;
+		while (temp)
+		{
+			if (head->num_ants > 0 && temp->node->distance < head->distance &&
+				temp->node->was_visited == FALSE && temp->node->is_full == FALSE)
+			{
+				head->num_ants--;
+				head->is_full = FALSE;
+				temp->node->num_ants++;
+				temp->node->is_full = TRUE;
+				temp->node->was_visited = TRUE;
+				if (temp->node->is_end == TRUE)
+				{
+					map->n_ants--;
+					temp->node->is_full = FALSE;
+				}
+				i > 1 ? ft_printf(" ") : 0;
+				ft_printf("L%d-%s", i, temp->node->name);
+				i++;
+			}
+			temp = temp->next;
+		}
+		head = head->next;
+		if (head == NULL && k == 0)
+		{
+			k++;
+			head = node;
+		}
+	}
+	reset_node(node);
+	ft_printf("\n");
+	i = 1;
 }
 
 void	reset_node(t_node *node)
