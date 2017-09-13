@@ -6,7 +6,7 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/16 10:21:10 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/09/13 11:11:54 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/09/13 15:57:15 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,4 +104,5 @@ void	node_is_end(t_node *node, t_map *map);
 void	reset_node(t_node *node);
 
 void	print_nodes(t_node *node);
+void	free_up(t_node *head);
 #endif

@@ -6,7 +6,7 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/19 15:18:01 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/09/13 11:05:17 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/09/13 16:08:54 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ void	set_link(char **line, t_node *head, t_node *node)
 	*line -= ft_strlen(node_name) + 1;
 	reverse_link(head, node);
 	next_link(line, head, node, copy);
+	free(link_name);
+	free(node_name);
 }
 
 /*

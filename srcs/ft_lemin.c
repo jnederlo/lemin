@@ -6,7 +6,7 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/16 10:46:41 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/09/13 11:11:57 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/09/13 15:57:32 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,12 @@ int		main(int argc, char **argv)
 	node = head;
 	while (map->n_ants > 0)
 		march(map, head, node);
+	// free(line);
+	free_up(head);
+	free(head);
+	free(map->note);
+	free(map);
+	while (1);
 	return (0);
 }
 
@@ -52,5 +58,19 @@ void	print_nodes(t_node *node)
 		}
 		ft_printf("\n");
 		node = node->next;
+	}
+}
+
+void	free_up(t_node *head)
+{
+	while (head)
+	{
+		while (head->link)
+		{
+			free(head->link);
+			head->link = head->link->next;
+		}
+		free(head->name);
+		head = head->next;
 	}
 }

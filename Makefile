@@ -6,7 +6,7 @@
 #    By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/08/16 12:08:56 by jnederlo          #+#    #+#              #
-#    Updated: 2017/09/13 11:13:04 by jnederlo         ###   ########.fr        #
+#    Updated: 2017/09/13 16:07:16 by jnederlo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,7 +52,7 @@ $(NAME): $(OBJECTS)
 	$(MESS_BLANK)
 	$(MESS_EXEC)
 	$(MESS_BLANK)
-	@$(CC) -o $@ $(FLAGS) $(OBJECTS) -L $(LIBRARY) -lft -g -fsanitize=address
+	@$(CC) -o $@ $(FLAGS) $(OBJECTS) -L $(LIBRARY) -lft -g
 	$(MESS_SUCCESS)
 	$(MESS_BLANK)
 

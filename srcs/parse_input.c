@@ -6,7 +6,7 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/13 11:03:56 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/09/13 11:05:07 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/09/13 16:11:21 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_node	*parse_input(char **line, t_map *map)
 	{
 		!head ? head = node_list(line, map, head) : 0;
 		node = node_list(line, map, head);
+		// while (1);
 		if (ft_strstr(*line, "##"))
 			commands(line, node, map);
 		else if (ft_strstr(*line, "#"))
@@ -36,6 +37,7 @@ t_node	*parse_input(char **line, t_map *map)
 		return (NULL);//probably need to do something with this.
 	set_link(line, head, node);
 	set_distance(map);
+	free(*line);
 	return (head);
 }
 
@@ -44,6 +46,7 @@ void	get_ants(char **line, t_map *map)
 	get_next_line(0, line);
 	map->n_ants = ft_atoi(*line);
 	ft_printf("%d\n", map->n_ants);
+	free(*line);
 }
 
 void	commands(char **line, t_node *node, t_map *map)
@@ -76,6 +79,8 @@ void	comments(char **line, t_map *map)
 	len = ft_strlen(*line);
 	map->note = ft_memalloc(sizeof(char) * len + 1);
 	map->note = ft_strcpy(map->note, *line);
+	*line -= 1;
+	free(*line);
 	// ft_printf("comment = %s\n\n", map->note);
 }
 
@@ -104,4 +109,5 @@ void	set_distance(t_map *map)
 		current = front->node;
 		dequeue(&front);
 	}
+	free(rear);
 }
