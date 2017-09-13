@@ -93,5 +93,6 @@ void	dequeue(t_queue **front);
 int		queue_break(t_queue **front, t_queue **rear, int dist);
 
 void	march(t_map *map, t_node *head, t_node *node);
+void	reset_node(t_node *node);
 
 #endif

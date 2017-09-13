@@ -76,9 +76,11 @@ void	set_nodes(char **line, t_node *node, t_map *map)
 	if (node->is_end == TRUE)
 		map->end = node;
 	if (node->is_start == TRUE)
+	{
 		map->start = node;
+		map->start->num_ants = map->n_ants;
+	}
 	map->node_num++;
-	map->start->num_ants = map->n_ants;
 }
 
 void	clear_node(t_map *map)
