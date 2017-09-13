@@ -6,7 +6,7 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/16 10:21:10 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/09/11 17:53:06 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/09/13 11:11:54 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ typedef enum	e_bool
 	FALSE,
 	TRUE
 }				t_bool;
-
-
 
 typedef struct		s_node
 {
@@ -40,7 +38,6 @@ typedef struct		s_node
 	int				distance;
 	struct s_link	*link;
 	struct s_node	*next;
-
 }					t_node;
 
 typedef struct		s_link
@@ -48,7 +45,6 @@ typedef struct		s_link
 	int				link_num;
 	t_node			*node;
 	struct s_link	*next;
-
 }					t_link;
 
 typedef struct		s_queue
@@ -67,32 +63,45 @@ typedef struct		s_map
 	int				node_num;
 }					t_map;
 
-void	parse_input(char **line, t_map *map);
-void	commands(char **line, t_node *node, t_map *map);
+/*
+** Functions in parse_input.c
+*/
+t_node	*parse_input(char **line, t_map *map);
 void	get_ants(char **line, t_map *map);
-void	set_nodes(char **line, t_node *node, t_map *map);
+void	commands(char **line, t_node *node, t_map *map);
 void	comments(char **line, t_map *map);
-void	clear_node(t_map *map);
-void	set_link(char **line, t_node *head, t_node *node);
+void	set_distance(t_map *map);
+
+/*
+** Functions in nodes.c
+*/
 t_node	*node_list(char **line, t_map *map, t_node *head);
-t_link	*link_list(t_node *node, t_link *link);
-void	print_nodes(t_node *node);
-void	first_link(char **line, t_node *head, t_node *node);
+void	set_nodes(char **line, t_node *node, t_map *map);
+void	clear_node(t_map *map);
+
+/*
+** Functions in links.c
+*/
+void	set_link(char **line, t_node *head, t_node *node);
 t_node	*traverse_list(t_node *node, char *name);
+t_link	*link_list(t_node *node, t_link *link);
 void	reverse_link(t_node *node, t_node *head);
 void	next_link(char **line, t_node *head, t_node *node, t_node *copy);
-int		is_duplicate(t_node *head, t_node *node);
 
-
-void	set_distance(t_map *map);
-t_queue	*depth(t_queue *head, t_queue *depth);
-t_node	*get_next_child(t_link *parent);
-
+/*
+** Functions in queue.c
+*/
 void	enqueue(t_queue **front, t_queue **rear, t_link *link, t_node *current);
 void	dequeue(t_queue **front);
-int		queue_break(t_queue **front, t_queue **rear, int dist);
 
+/*
+** Functions in march_ants.c
+*/
 void	march(t_map *map, t_node *head, t_node *node);
+void	march_on(t_node **head);
+int		move_ants(t_link **temp, t_node **head, t_map *map, int i);
+void	node_is_end(t_node *node, t_map *map);
 void	reset_node(t_node *node);
 
+void	print_nodes(t_node *node);
 #endif

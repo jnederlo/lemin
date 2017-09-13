@@ -6,7 +6,7 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/19 15:18:01 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/09/11 17:50:04 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/09/13 11:05:17 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,44 @@ void	set_link(char **line, t_node *head, t_node *node)
 }
 
 /*
+** Traverses through the main linked list structure (of nodes) to set
+** the appropriate nodes as 'head' and 'node' for the links.
+*/
+t_node	*traverse_list(t_node *node, char *name)
+{
+	while (ft_strcmp(node->name, name) && node->next != NULL)
+		node = node->next;
+	return (node);
+}
+
+/*
+** Initializes the links linked list and adds new links to the list.
+*/
+t_link	*link_list(t_node *node, t_link *link)
+{
+	t_link	*link_node;
+	int		num_links;
+
+	num_links = node->num_links;
+	if (link == NULL)
+	{
+		link_node = ft_memalloc(sizeof(t_node));
+		link_node->link_num = num_links;
+		link_node->next = NULL;
+		return (link_node);
+	}
+	while (num_links != link->link_num && link->next != NULL)
+		link = link->next;
+	if (num_links == link->link_num)
+		return (link);
+	link_node = ft_memalloc(sizeof(t_link));
+	link_node->link_num = num_links;
+	link->next = link_node;
+	link_node->next = NULL;
+	return (link_node);
+}
+
+/*
 ** Every link is a two way link, so I reverse the nodes to have each
 ** link also pointing back to the linking node.
 */
@@ -74,39 +112,5 @@ void	next_link(char **line, t_node *head, t_node *node, t_node *copy)
 	}
 }
 
-/*
-** Traverses through the main linked list structure (of nodes) to set
-** the appropriate nodes as 'head' and 'node' for the links.
-*/
-t_node	*traverse_list(t_node *node, char *name)
-{
-	while (ft_strcmp(node->name, name) && node->next != NULL)
-		node = node->next;
-	return (node);
-}
-/*
-** Initializes the links linked list and adds new links to the list.
-*/
-t_link	*link_list(t_node *node, t_link *link)
-{
-	t_link	*link_node;
-	int		num_links;
 
-	num_links = node->num_links;
-	if (link == NULL)
-	{
-		link_node = ft_memalloc(sizeof(t_node));
-		link_node->link_num = num_links;
-		link_node->next = NULL;
-		return (link_node);
-	}
-	while (num_links != link->link_num && link->next != NULL)
-		link = link->next;
-	if (num_links == link->link_num)
-		return (link);
-	link_node = ft_memalloc(sizeof(t_link));
-	link_node->link_num = num_links;
-	link->next = link_node;
-	link_node->next = NULL;
-	return (link_node);
-}
+

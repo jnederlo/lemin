@@ -6,7 +6,7 @@
 #    By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/08/16 12:08:56 by jnederlo          #+#    #+#              #
-#    Updated: 2017/08/19 15:17:49 by jnederlo         ###   ########.fr        #
+#    Updated: 2017/09/13 11:13:04 by jnederlo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,9 @@ LIB_A		=	libft.a
 FILES		=	ft_lemin.c \
 				links.c \
 				nodes.c \
+				queue.c \
+				parse_input.c \
+				march_ants.c \
 
 MESS_BLANK	=	@echo ""
 MESS_LIBRARY=	@echo "\033[35m\033[1m**	COMPILING LIBRARY	**\033[0m"
