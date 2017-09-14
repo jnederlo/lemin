@@ -24,11 +24,12 @@ int		main(int argc, char **argv)
 	// if (argc != 2)
 	// 	return (ft_printf("Error\n"));
 	line = argv[1];
-	head = parse_input(&line, map);
+	head = parse_input(line, map);
 	node = head;
 	while (map->n_ants > 0)
 		march(map, head, node);
 	// free(line);
+	ft_printf("%s\n", line);
 	free_up(head);
 	free(head);
 	free(map->note);

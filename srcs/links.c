@@ -20,19 +20,19 @@
 ** The links point to another complete node. So the linked list internal to
 ** each node has links to another nodes.
 */
-void	set_link(char **line, t_node *head, t_node *node)
+void	set_link(char *line, t_node *head, t_node *node)
 {
 	char	*node_name;
 	char	*link_name;
 	t_link	*link;
 	t_node	*copy;
 
-	if (**line == '\n')
+	if (*line == '\n')
 		return ;
 	copy = head;
-	node_name = ft_word_copy(*line, '-');
-	*line += ft_strlen(node_name) + 1;
-	link_name = ft_strdup(*line);
+	node_name = ft_word_copy(line, '-');
+	line += ft_strlen(node_name) + 1;
+	link_name = ft_strdup(line);
 	head = traverse_list(head, node_name);
 	node = traverse_list(node, link_name);
 	head->num_links++;
@@ -40,7 +40,7 @@ void	set_link(char **line, t_node *head, t_node *node)
 	link->node = node;
 	if (head->num_links == 1)
 		head->link = link;
-	*line -= ft_strlen(node_name) + 1;
+	line -= ft_strlen(node_name) + 1;
 	reverse_link(head, node);
 	next_link(line, head, node, copy);
 	free(link_name);
@@ -104,13 +104,17 @@ void	reverse_link(t_node *node, t_node *head)
 ** Reads in the next link from the input - I'm basically using a
 ** recursive call in 'set_link()'
 */
-void	next_link(char **line, t_node *head, t_node *node, t_node *copy)
+void	next_link(char *line, t_node *head, t_node *node, t_node *copy)
 {
-	while (get_next_line(0, line))
+	char	*line_copy;
+
+	line_copy = line;
+	free(line);
+	while (get_next_line(0, &line_copy))
 	{
 		head = copy;
 		node = copy;
-		set_link(line, head, node);
+		set_link(line_copy, head, node);
 	}
 }
 

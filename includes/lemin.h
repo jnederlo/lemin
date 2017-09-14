@@ -66,27 +66,27 @@ typedef struct		s_map
 /*
 ** Functions in parse_input.c
 */
-t_node	*parse_input(char **line, t_map *map);
-void	get_ants(char **line, t_map *map);
-void	commands(char **line, t_node *node, t_map *map);
-void	comments(char **line, t_map *map);
+t_node	*parse_input(char *line, t_map *map);
+void	get_ants(t_map *map);
+void	commands(char *line, t_node *node, t_map *map);
+void	comments(char *line, t_map *map);
 void	set_distance(t_map *map);
 
 /*
 ** Functions in nodes.c
 */
-t_node	*node_list(char **line, t_map *map, t_node *head);
-void	set_nodes(char **line, t_node *node, t_map *map);
+t_node	*node_list(char *line, t_map *map, t_node *head);
+void	set_nodes(char *line, t_node *node, t_map *map);
 void	clear_node(t_map *map);
 
 /*
 ** Functions in links.c
 */
-void	set_link(char **line, t_node *head, t_node *node);
+void	set_link(char *line, t_node *head, t_node *node);
 t_node	*traverse_list(t_node *node, char *name);
 t_link	*link_list(t_node *node, t_link *link);
 void	reverse_link(t_node *node, t_node *head);
-void	next_link(char **line, t_node *head, t_node *node, t_node *copy);
+void	next_link(char *line, t_node *head, t_node *node, t_node *copy);
 
 /*
 ** Functions in queue.c

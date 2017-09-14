@@ -18,12 +18,12 @@
 ** the input. It will then add nodes to the linked list as it continues
 ** reading in from the input for each new node.
 */
-t_node	*node_list(char **line, t_map *map, t_node *head)
+t_node	*node_list(char *line, t_map *map, t_node *head)
 {
 	t_node	*node;
 	int		node_num;
 
-	if (ft_strstr(*line, "-"))
+	if (ft_strstr(line, "-"))
 		return (head);
 	node_num = map->node_num;
 	if (head == NULL)
@@ -53,26 +53,26 @@ t_node	*node_list(char **line, t_map *map, t_node *head)
 **
 ** increases the map->node_num count by 1 (used in node linked list).
 */
-void	set_nodes(char **line, t_node *node, t_map *map)
+void	set_nodes(char *line, t_node *node, t_map *map)
 {
 	int		name_len;
 	char	*name;
 	int		count;
 
-	ft_printf("%s\n", *line);
-	name = ft_word_copy(*line, ' ');
+	ft_printf("%s\n", line);
+	name = ft_word_copy(line, ' ');
 	name_len = ft_strlen(name) + 1;
 	node->name = ft_memalloc(sizeof(char) * name_len);
 	node->name = name;
 	node->num_ants = 0;
-	*line += name_len;
-	node->x_coord = ft_atoi(*line);
+	line += name_len;
+	node->x_coord = ft_atoi(line);
 	count = ft_count_digits(node->x_coord) + 1;
-	*line += count;
-	node->y_coord = ft_atoi(*line);
+	line += count;
+	node->y_coord = ft_atoi(line);
 	count += ft_count_digits(node->y_coord);
 	node->link = NULL;
-	*line -= name_len + count;
+	line -= name_len + count - 1;
 	if (node->is_end == TRUE)
 		map->end = node;
 	if (node->is_start == TRUE)
@@ -81,6 +81,7 @@ void	set_nodes(char **line, t_node *node, t_map *map)
 		map->start->num_ants = map->n_ants;
 	}
 	map->node_num++;
+	free(line);
 }
 
 void	clear_node(t_map *map)
