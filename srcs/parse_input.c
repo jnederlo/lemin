@@ -6,7 +6,7 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/13 11:03:56 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/09/14 17:43:52 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/09/15 13:26:37 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,36 +19,27 @@ t_node	*parse_input(char *line, t_map *map)
 
 	head = NULL;
 	get_ants(map);
-	while (get_next_line(0, &line))
+	while (get_next_line(0, &line) > 0)
 	{
 		!head ? head = node_list(line, map, head) : 0;
 		node = node_list(line, map, head);
 		if (ft_strstr(line, "##"))
-		{
 			commands(line, node, map);
-			free(line);
-		}
 		else if (ft_strstr(line, "#"))
-		{
 			comments(line, map);
-			free(line);
-		}
 		else if (!ft_strstr(line, "-"))
-		{
 			set_nodes(line, node, map);
-			free(line);
-		}
 		else
 			break;
 	}
 	if (!ft_strstr(line, "-"))
 	{
-		free(line);
+		ft_strdel(&line);
 		return (NULL);//probably need to do something with this.
 	}
 	set_link(line, head, node, map);
 	set_distance(map);
-	free(line);
+	// ft_strdel(line);
 	return (head);
 }
 
@@ -59,7 +50,7 @@ void	get_ants(t_map *map)
 	get_next_line(0, &line);
 	map->n_ants = ft_atoi(line);
 	ft_printf("%d\n", map->n_ants);
-	free(line);
+	ft_strdel(&line);
 }
 
 void	commands(char *line, t_node *node, t_map *map)
@@ -85,8 +76,7 @@ void	commands(char *line, t_node *node, t_map *map)
 		node->distance = 0;
 		set_nodes(line_copy, node, map);
 	}
-	free(line_copy);
-	// free(line);//either here or in parse_input.
+	ft_strdel(&line);//either here or in parse_input.
 }
 
 void	comments(char *line, t_map *map)
@@ -101,7 +91,7 @@ void	comments(char *line, t_map *map)
 	// map->note = ft_strcpy(map->note, &line[i]);
 	// ft_printf("#%s\n", map->note);
 	ft_printf("%s\n", line);
-	// free(line);//either here or in parse_input.
+	ft_strdel(&line);//either here or in parse_input.
 }
 
 void	set_distance(t_map *map)

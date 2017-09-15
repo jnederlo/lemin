@@ -6,7 +6,7 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/19 15:18:16 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/09/14 17:41:49 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/09/15 12:50:29 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ void	set_nodes(char *line, t_node *node, t_map *map)
 	ft_printf("%s\n", line);
 	name = ft_word_copy(line, ' ');
 	name_len = ft_strlen(name) + 1;
-	node->name = ft_memalloc(sizeof(char) * name_len);
 	node->name = name;
 	node->num_ants = 0;
 	line += name_len;
@@ -81,6 +80,7 @@ void	set_nodes(char *line, t_node *node, t_map *map)
 		map->start->num_ants = map->n_ants;
 	}
 	map->node_num++;
+	ft_strdel(&line);
 }
 
 void	clear_node(t_map *map)

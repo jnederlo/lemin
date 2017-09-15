@@ -6,7 +6,7 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/19 15:18:01 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/09/14 17:54:32 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/09/15 13:22:36 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,12 @@ void	set_link(char *line, t_node *head, t_node *node, t_map *map)
 	if (head->num_links == 1)
 		head->link = link;
 	// line -= ft_strlen(node_name) + 1;
+	ft_strdel(&link_name);
+	ft_strdel(&node_name);
+	// ft_strdel(&line);
 	reverse_link(head, node);
 	next_link(head, node, copy, map);
-	free(link_name);
-	free(node_name);
+	ft_strdel(&line);
 }
 
 /*
@@ -111,10 +113,10 @@ void	reverse_link(t_node *node, t_node *head)
 void	next_link(t_node *head, t_node *node, t_node *copy, t_map *map)
 {
 	char	*line;
+	char	*line_copy;
 
 	line = NULL;
-	free(line);
-	while (get_next_line(0, &line))
+	while (get_next_line(0, &line) > 0)
 	{
 		// ft_printf("line in next_link = %s\n", line);
 		head = copy;
@@ -122,12 +124,16 @@ void	next_link(t_node *head, t_node *node, t_node *copy, t_map *map)
 		if (*line == '#')
 		{
 			comments(line, map);
+			ft_strdel(&line);
 			get_next_line(0, &line);
 		}
+		line_copy = ft_strdup(line);
+		ft_strdel(&line);
 		// ft_printf("line in next_link = %s\n", line);
-		set_link(line, head, node, map);
+		set_link(line_copy, head, node, map);
+		ft_strdel(&line_copy);
 	}
-	free(line);
+	// ft_strdel(&line);
 }
 
 
