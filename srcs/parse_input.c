@@ -6,7 +6,7 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/13 11:03:56 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/09/13 16:11:21 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/09/14 17:43:52 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,7 @@ t_node	*parse_input(char *line, t_map *map)
 {
 	t_node	*node;
 	t_node	*head;
-	// char	*line_copy;
 
-	// line_copy = line;
 	head = NULL;
 	get_ants(map);
 	while (get_next_line(0, &line))
@@ -26,17 +24,29 @@ t_node	*parse_input(char *line, t_map *map)
 		!head ? head = node_list(line, map, head) : 0;
 		node = node_list(line, map, head);
 		if (ft_strstr(line, "##"))
+		{
 			commands(line, node, map);
+			free(line);
+		}
 		else if (ft_strstr(line, "#"))
+		{
 			comments(line, map);
+			free(line);
+		}
 		else if (!ft_strstr(line, "-"))
+		{
 			set_nodes(line, node, map);
+			free(line);
+		}
 		else
 			break;
 	}
 	if (!ft_strstr(line, "-"))
+	{
+		free(line);
 		return (NULL);//probably need to do something with this.
-	set_link(line, head, node);
+	}
+	set_link(line, head, node, map);
 	set_distance(map);
 	free(line);
 	return (head);
@@ -57,38 +67,41 @@ void	commands(char *line, t_node *node, t_map *map)
 	char	*line_copy;
 
 	line_copy = line;
-	free(line);
-	if (!(ft_strstr(line, "##start") || ft_strstr(line, "##end")))
+	if (!(ft_strstr(line_copy, "##start") || ft_strstr(line_copy, "##end")))
 		return ;
-	else if (ft_strstr(line, "start"))
+	else if (ft_strstr(line_copy, "start"))
 	{
 		ft_printf("##start\n");
-		get_next_line(0, &line);
+		get_next_line(0, &line_copy);
 		node->is_start = TRUE;
-		set_nodes(line, node, map);
+		set_nodes(line_copy, node, map);
 	}
-	else if (ft_strstr(line, "end"))
+	else if (ft_strstr(line_copy, "end"))
 	{
 		ft_printf("##end\n");
-		get_next_line(0, &line);
+		get_next_line(0, &line_copy);
 		node->is_end = TRUE;
 		node->is_set = TRUE;
 		node->distance = 0;
-		set_nodes(line, node, map);
+		set_nodes(line_copy, node, map);
 	}
+	free(line_copy);
+	// free(line);//either here or in parse_input.
 }
 
 void	comments(char *line, t_map *map)
 {
-	int	len;
+	(void)map;
+	// int	len;
+	// int	i;
 
-	line += 1;
-	len = ft_strlen(line);
-	map->note = ft_memalloc(sizeof(char) * len + 1);
-	map->note = ft_strcpy(map->note, line);
-	line -= 1;
-	free(line);
-	// ft_printf("comment = %s\n\n", map->note);
+	// i = 1;
+	// len = ft_strlen(&line[i]) + 1;
+	// map->note = ft_memalloc(sizeof(char) * len);
+	// map->note = ft_strcpy(map->note, &line[i]);
+	// ft_printf("#%s\n", map->note);
+	ft_printf("%s\n", line);
+	// free(line);//either here or in parse_input.
 }
 
 void	set_distance(t_map *map)

@@ -6,7 +6,7 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/19 15:18:01 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/09/13 16:08:54 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/09/14 17:54:32 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,23 @@
 ** The links point to another complete node. So the linked list internal to
 ** each node has links to another nodes.
 */
-void	set_link(char *line, t_node *head, t_node *node)
+void	set_link(char *line, t_node *head, t_node *node, t_map *map)
 {
 	char	*node_name;
 	char	*link_name;
 	t_link	*link;
 	t_node	*copy;
+	int		i;
 
+	i = 0;
 	if (*line == '\n')
 		return ;
 	copy = head;
+	//maybe free node_name??
+	ft_printf("%s\n", line);
 	node_name = ft_word_copy(line, '-');
-	line += ft_strlen(node_name) + 1;
-	link_name = ft_strdup(line);
+	i = ft_strlen(node_name) + 1;
+	link_name = ft_strdup(&line[i]);
 	head = traverse_list(head, node_name);
 	node = traverse_list(node, link_name);
 	head->num_links++;
@@ -40,9 +44,9 @@ void	set_link(char *line, t_node *head, t_node *node)
 	link->node = node;
 	if (head->num_links == 1)
 		head->link = link;
-	line -= ft_strlen(node_name) + 1;
+	// line -= ft_strlen(node_name) + 1;
 	reverse_link(head, node);
-	next_link(line, head, node, copy);
+	next_link(head, node, copy, map);
 	free(link_name);
 	free(node_name);
 }
@@ -104,18 +108,26 @@ void	reverse_link(t_node *node, t_node *head)
 ** Reads in the next link from the input - I'm basically using a
 ** recursive call in 'set_link()'
 */
-void	next_link(char *line, t_node *head, t_node *node, t_node *copy)
+void	next_link(t_node *head, t_node *node, t_node *copy, t_map *map)
 {
-	char	*line_copy;
+	char	*line;
 
-	line_copy = line;
+	line = NULL;
 	free(line);
-	while (get_next_line(0, &line_copy))
+	while (get_next_line(0, &line))
 	{
+		// ft_printf("line in next_link = %s\n", line);
 		head = copy;
 		node = copy;
-		set_link(line_copy, head, node);
+		if (*line == '#')
+		{
+			comments(line, map);
+			get_next_line(0, &line);
+		}
+		// ft_printf("line in next_link = %s\n", line);
+		set_link(line, head, node, map);
 	}
+	free(line);
 }
 
 

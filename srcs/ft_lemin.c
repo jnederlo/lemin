@@ -6,7 +6,7 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/16 10:46:41 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/09/13 15:57:32 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/09/14 17:08:50 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,16 @@ int		main(int argc, char **argv)
 	line = argv[1];
 	head = parse_input(line, map);
 	node = head;
+	ft_printf("\n");
 	while (map->n_ants > 0)
 		march(map, head, node);
-	// free(line);
-	ft_printf("%s\n", line);
+	// ft_printf("%s\n", line);
 	free_up(head);
-	free(head);
-	free(map->note);
-	free(map);
+	// free(head);
+	// free(map->start);
+	// free(map->end);
+	// free(map->note);
+	// free(map);
 	while (1);
 	return (0);
 }
@@ -66,11 +68,6 @@ void	free_up(t_node *head)
 {
 	while (head)
 	{
-		while (head->link)
-		{
-			free(head->link);
-			head->link = head->link->next;
-		}
 		free(head->name);
 		head = head->next;
 	}

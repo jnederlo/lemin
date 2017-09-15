@@ -6,7 +6,7 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/19 15:18:16 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/09/13 15:57:03 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/09/14 17:41:49 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ void	set_nodes(char *line, t_node *node, t_map *map)
 		map->start->num_ants = map->n_ants;
 	}
 	map->node_num++;
-	free(line);
 }
 
 void	clear_node(t_map *map)

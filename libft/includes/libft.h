@@ -6,7 +6,7 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/12 17:58:50 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/08/06 18:51:56 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/09/14 15:46:18 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ void				ft_putnbr_fd(int n, int fd);
 */
 
 char				*ft_next_word(const char *s, char c);
-char				*ft_word_copy(const char *s, char c);
+char				*ft_word_copy(char *s, char c);
 int					ft_count_words(const char *s, char c);
 int					ft_is_whitespace(int c);
 int					ft_count_digits(int n);

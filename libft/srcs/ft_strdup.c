@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jnederlo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/05 15:41:56 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/03/15 16:26:13 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/09/14 12:49:16 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ char	*ft_strdup(const char *s1)
 	char	*s2;
 
 	i = 0;
-	size = ft_strlen(s1);
-	s2 = (char*)malloc(size * sizeof(char) + 1);
+	size = ft_strlen(s1) + 1;
+	s2 = (char *)ft_memalloc(size * sizeof(char));
 	if (s2 == NULL)
 		return (NULL);
 	while (s1[i])
@@ -28,6 +28,5 @@ char	*ft_strdup(const char *s1)
 		s2[i] = s1[i];
 		i++;
 	}
-	s2[i] = 0;
 	return (s2);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strsplit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jnederlo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/12 17:59:57 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/03/13 13:36:13 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/09/14 15:47:46 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	**ft_strsplit(char const *s, char c)
 		return (0);
 	while (num_words > 0)
 	{
-		*word = ft_word_copy(s, c);
+		*word = ft_word_copy((char *)s, c);
 		s = ft_next_word(s, c);
 		num_words--;
 		word++;

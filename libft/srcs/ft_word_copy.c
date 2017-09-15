@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_word_copy.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jnederlo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 20:04:52 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/03/18 20:04:54 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/09/14 15:48:56 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 #include "../includes/libft.h"
 
-char	*ft_word_copy(const char *s, char c)
+char	*ft_word_copy(char *s, char c)
 {
 	int		j;
 	char	*start;
@@ -30,14 +30,14 @@ char	*ft_word_copy(const char *s, char c)
 		while (*s && *s == c)
 			s++;
 		if (*s != c && *s)
-			start = (char *)s;
+			start = s;
 		while (*s != c && *s)
 		{
 			s++;
 			j++;
 		}
 		start = ft_strnew(j);
-		start = ft_strncpy(start, (char *)s - j, j);
+		start = ft_strncpy(start, s - j, j);
 		return (start);
 	}
 	return (0);

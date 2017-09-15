@@ -6,7 +6,7 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/13 11:06:12 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/09/13 16:08:37 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/09/14 16:19:22 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,17 @@ void	enqueue(t_queue **front, t_queue **rear, t_link *link, t_node *current)
 		(*rear)->next = new_node;
 		*rear = new_node;
 	}
+	// free(new_node);
 }
 
 void	dequeue(t_queue **front)
 {
-	t_queue	**temp;
+	t_queue	*temp;
 
 	if (*front != NULL)
 	{
-		temp = front;
+		temp = *front;
 		*front = (*front)->next;
-		free(*temp);
+		free(temp);
 	}
 }
