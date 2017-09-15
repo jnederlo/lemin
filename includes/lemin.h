@@ -6,7 +6,7 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/16 10:21:10 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/09/14 15:54:32 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/09/15 14:27:24 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,10 @@ typedef struct		s_map
 /*
 ** Functions in parse_input.c
 */
-t_node	*parse_input(char *line, t_map *map);
+t_node	*parse_input(t_map *map);
 void	get_ants(t_map *map);
 void	commands(char *line, t_node *node, t_map *map);
-void	comments(char *line, t_map *map);
+void	comments(char *line);
 void	set_distance(t_map *map);
 
 /*
@@ -81,11 +81,12 @@ void	clear_node(t_map *map);
 /*
 ** Functions in links.c
 */
-void	set_link(char *line, t_node *head, t_node *node, t_map *map);
+void	set_link(char *line, t_node *head, t_node *node);
+void	first_link(char *line, t_node *head, t_node *node);
 t_node	*traverse_list(t_node *node, char *name);
 t_link	*link_list(t_node *node, t_link *link);
 void	reverse_link(t_node *node, t_node *head);
-void	next_link(t_node *head, t_node *node, t_node *copy, t_map *map);
+void	next_link(t_node *head, t_node *node, t_node *copy);
 
 /*
 ** Functions in queue.c

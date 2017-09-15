@@ -6,7 +6,7 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/19 15:18:01 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/09/15 13:22:36 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/09/15 14:47:27 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 ** The links point to another complete node. So the linked list internal to
 ** each node has links to another nodes.
 */
-void	set_link(char *line, t_node *head, t_node *node, t_map *map)
+void	set_link(char *line, t_node *head, t_node *node)
 {
 	char	*node_name;
 	char	*link_name;
@@ -31,6 +31,11 @@ void	set_link(char *line, t_node *head, t_node *node, t_map *map)
 	i = 0;
 	if (*line == '\n')
 		return ;
+	if (*line == '#')
+	{
+		ft_printf("%s\n", line);
+		return ;
+	}
 	copy = head;
 	//maybe free node_name??
 	ft_printf("%s\n", line);
@@ -49,9 +54,39 @@ void	set_link(char *line, t_node *head, t_node *node, t_map *map)
 	ft_strdel(&node_name);
 	// ft_strdel(&line);
 	reverse_link(head, node);
-	next_link(head, node, copy, map);
-	ft_strdel(&line);
+	// next_link(head, node, copy, map);
+	// ft_strdel(&line);
 }
+
+// void	first_link(char *line, t_node *head, t_node *node)
+// {
+// 	char	*node_name;
+// 	char	*link_name;
+// 	t_link	*link;
+// 	t_node	*copy;
+// 	int		i;
+
+// 	i = 0;
+// 	copy = head;
+// 	ft_printf("%s\n", line);
+// 	node_name = ft_word_copy(line, '-');
+// 	i = ft_strlen(node_name) + 1;
+// 	link_name = ft_strdup(&line[i]);
+// 	head = traverse_list(head, node_name);
+// 	node = traverse_list(node, link_name);
+// 	head->num_links++;
+// 	link = link_list(head, head->link);
+// 	link->node = node;
+// 	if (head->num_links == 1)
+// 		head->link = link;
+// 	// line -= ft_strlen(node_name) + 1;
+// 	ft_strdel(&link_name);
+// 	ft_strdel(&node_name);
+// 	// ft_strdel(&line);
+// 	reverse_link(head, node);
+// 	// next_link(head, node, copy, map);
+// }
+
 
 /*
 ** Traverses through the main linked list structure (of nodes) to set
@@ -106,35 +141,35 @@ void	reverse_link(t_node *node, t_node *head)
 		head->link = link;
 }
 
-/*
-** Reads in the next link from the input - I'm basically using a
-** recursive call in 'set_link()'
-*/
-void	next_link(t_node *head, t_node *node, t_node *copy, t_map *map)
-{
-	char	*line;
-	char	*line_copy;
+// /*
+// ** Reads in the next link from the input - I'm basically using a
+// ** recursive call in 'set_link()'
+// */
+// void	next_link(t_node *head, t_node *node, t_node *copy)
+// {
+// 	char	*line;
+// 	char	*line_copy;
 
-	line = NULL;
-	while (get_next_line(0, &line) > 0)
-	{
-		// ft_printf("line in next_link = %s\n", line);
-		head = copy;
-		node = copy;
-		if (*line == '#')
-		{
-			comments(line, map);
-			ft_strdel(&line);
-			get_next_line(0, &line);
-		}
-		line_copy = ft_strdup(line);
-		ft_strdel(&line);
-		// ft_printf("line in next_link = %s\n", line);
-		set_link(line_copy, head, node, map);
-		ft_strdel(&line_copy);
-	}
-	// ft_strdel(&line);
-}
+// 	line = NULL;
+// 	while (get_next_line(0, &line) > 0)
+// 	{
+// 		// ft_printf("line in next_link = %s\n", line);
+// 		head = copy;
+// 		node = copy;
+// 		if (*line == '#')
+// 		{
+// 			comments(line);
+// 			ft_strdel(&line);
+// 			get_next_line(0, &line);
+// 		}
+// 		line_copy = ft_strdup(line);
+// 		ft_strdel(&line);
+// 		// ft_printf("line in next_link = %s\n", line);
+// 		set_link(line_copy, head, node);
+// 		ft_strdel(&line_copy);
+// 	}
+// 	// ft_strdel(&line);
+// }
 
 
 

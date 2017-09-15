@@ -6,16 +6,17 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/13 11:03:56 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/09/15 13:26:37 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/09/15 15:24:53 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
-t_node	*parse_input(char *line, t_map *map)
+t_node	*parse_input(t_map *map)
 {
 	t_node	*node;
 	t_node	*head;
+	char	*line;
 
 	head = NULL;
 	get_ants(map);
@@ -26,20 +27,15 @@ t_node	*parse_input(char *line, t_map *map)
 		if (ft_strstr(line, "##"))
 			commands(line, node, map);
 		else if (ft_strstr(line, "#"))
-			comments(line, map);
+			ft_printf("%s\n", line);
 		else if (!ft_strstr(line, "-"))
 			set_nodes(line, node, map);
 		else
-			break;
-	}
-	if (!ft_strstr(line, "-"))
-	{
+			set_link(line, head, node);
 		ft_strdel(&line);
-		return (NULL);//probably need to do something with this.
 	}
-	set_link(line, head, node, map);
+	ft_strdel(&line);
 	set_distance(map);
-	// ft_strdel(line);
 	return (head);
 }
 
@@ -47,20 +43,42 @@ void	get_ants(t_map *map)
 {
 	char	*line;
 
+	//add error check here for no ants or not a number.
 	get_next_line(0, &line);
 	map->n_ants = ft_atoi(line);
 	ft_printf("%d\n", map->n_ants);
 	ft_strdel(&line);
 }
 
+int		commands(char *line)
+{
+	if (!(ft_strcmp(line, "##start") || ft_strcmp(line, "##end")))
+	{
+		// ft_strdel(&line);
+		ft_printf("ERROR\n");
+		return (-1);
+	}
+	ft_printf("%s\n" line);
+	if (ft_strcmp(line, "start"))
+		return (1);
+	else
+		return (2);
+}
+
+
 void	commands(char *line, t_node *node, t_map *map)
 {
 	char	*line_copy;
 
-	line_copy = line;
+	line_copy = ft_strdup(line);
+	// ft_strdel(&line);
 	if (!(ft_strstr(line_copy, "##start") || ft_strstr(line_copy, "##end")))
+	{
+		ft_strdel(&line_copy);
+		ft_printf("ERROR\n");
 		return ;
-	else if (ft_strstr(line_copy, "start"))
+	}
+	if (ft_strstr(line_copy, "start"))
 	{
 		ft_printf("##start\n");
 		get_next_line(0, &line_copy);
@@ -76,23 +94,23 @@ void	commands(char *line, t_node *node, t_map *map)
 		node->distance = 0;
 		set_nodes(line_copy, node, map);
 	}
-	ft_strdel(&line);//either here or in parse_input.
+	ft_strdel(&line_copy);
 }
 
-void	comments(char *line, t_map *map)
-{
-	(void)map;
-	// int	len;
-	// int	i;
+// void	comments(char *line)
+// {
+// 	// (void)map;
+// 	// int	len;
+// 	// int	i;
 
-	// i = 1;
-	// len = ft_strlen(&line[i]) + 1;
-	// map->note = ft_memalloc(sizeof(char) * len);
-	// map->note = ft_strcpy(map->note, &line[i]);
-	// ft_printf("#%s\n", map->note);
-	ft_printf("%s\n", line);
-	ft_strdel(&line);//either here or in parse_input.
-}
+// 	// i = 1;
+// 	// len = ft_strlen(&line[i]) + 1;
+// 	// map->note = ft_memalloc(sizeof(char) * len);
+// 	// map->note = ft_strcpy(map->note, &line[i]);
+// 	// ft_printf("#%s\n", map->note);
+// 	ft_printf("%s\n", line);
+// 	// ft_strdel(&line);//either here or in parse_input.
+// }
 
 void	set_distance(t_map *map)
 {
