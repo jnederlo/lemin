@@ -6,28 +6,28 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/16 10:46:41 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/09/15 14:27:51 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/09/15 17:09:40 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
-int		main(int argc, char **argv)
+int		main()
 {
 	t_map	*map;
 	t_node	*head;
 	t_node	*node;
 
 	map = ft_memalloc(sizeof(t_map));
-	(void)argc;
-	(void)argv;
-	// if (argc != 2)
-	// 	return (ft_printf("Error\n"));
+	//maybe add error check for valid file??
 	head = parse_input(map);
 	node = head;
 	ft_printf("\n");
 	while (map->n_ants > 0)
 		march(map, head, node);
+	// free_up(head);
+	// free(head);
+	// free(map);
 	while (1);
 	return (0);
 }
@@ -60,6 +60,11 @@ void	free_up(t_node *head)
 {
 	while (head)
 	{
+		while (head->link)
+		{
+			free(head->link);
+			head->link = head->link->next;
+		}
 		free(head->name);
 		head = head->next;
 	}

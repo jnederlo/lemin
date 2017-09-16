@@ -6,7 +6,7 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/19 15:18:16 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/09/15 14:19:04 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/09/15 16:33:45 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,16 @@ t_node	*node_list(char *line, t_map *map, t_node *head)
 **
 ** increases the map->node_num count by 1 (used in node linked list).
 */
-void	set_nodes(char *line, t_node *node, t_map *map)
+int		set_nodes(char *line, t_node *node, t_map *map, int i)
 {
 	int		name_len;
 	char	*name;
 	int		count;
 
 	ft_printf("%s\n", line);
+	if (i > 0)
+		start_end(node, i);
+	i = 0;
 	name = ft_word_copy(line, ' ');
 	name_len = ft_strlen(name) + 1;
 	node->name = name;
@@ -80,7 +83,20 @@ void	set_nodes(char *line, t_node *node, t_map *map)
 		map->start->num_ants = map->n_ants;
 	}
 	map->node_num++;
+	return (i);
 	// ft_strdel(&line);
+}
+
+void	start_end(t_node *node, int i)
+{
+	if (i == 1)
+		node->is_start = TRUE;
+	else
+	{
+		node->is_end = TRUE;
+		node->is_set = TRUE;
+		node->distance = 0;
+	}
 }
 
 void	clear_node(t_map *map)

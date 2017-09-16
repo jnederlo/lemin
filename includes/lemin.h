@@ -6,7 +6,7 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/16 10:21:10 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/09/15 14:27:24 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/09/15 16:33:35 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,16 +66,16 @@ typedef struct		s_map
 ** Functions in parse_input.c
 */
 t_node	*parse_input(t_map *map);
-void	get_ants(t_map *map);
-void	commands(char *line, t_node *node, t_map *map);
-void	comments(char *line);
+int		get_ants(char *line, t_map *map, int k);
+int		commands(char *line);
 void	set_distance(t_map *map);
 
 /*
 ** Functions in nodes.c
 */
 t_node	*node_list(char *line, t_map *map, t_node *head);
-void	set_nodes(char *line, t_node *node, t_map *map);
+int		set_nodes(char *line, t_node *node, t_map *map, int i);
+void	start_end(t_node *node, int i);
 void	clear_node(t_map *map);
 
 /*
