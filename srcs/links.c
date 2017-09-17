@@ -55,7 +55,7 @@ void	set_link(char *line, t_node *head, t_node *node)
 	// ft_strdel(&line);
 	reverse_link(head, node);
 	// next_link(head, node, copy, map);
-	// ft_strdel(&line);
+	ft_strdel(&line);
 }
 
 // void	first_link(char *line, t_node *head, t_node *node)

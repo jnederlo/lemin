@@ -62,12 +62,15 @@ typedef struct		s_map
 	int				node_num;
 }					t_map;
 
+int					g_error;
+
 /*
 ** Functions in parse_input.c
 */
 t_node	*parse_input(t_map *map);
-int		get_ants(char *line, t_map *map, int k);
-int		commands(char *line);
+int		get_ants(char *line, t_map *map);
+int		commands(char *line, t_node *node, t_map *map, int i);
+void	comments(char *line);
 void	set_distance(t_map *map);
 
 /*
@@ -75,7 +78,7 @@ void	set_distance(t_map *map);
 */
 t_node	*node_list(char *line, t_map *map, t_node *head);
 int		set_nodes(char *line, t_node *node, t_map *map, int i);
-void	start_end(t_node *node, int i);
+int		start_end(t_node *node, int i);
 void	clear_node(t_map *map);
 
 /*

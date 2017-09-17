@@ -23,12 +23,17 @@ void	march(t_map *map, t_node *head, t_node *node)
 	while (head)
 	{
 		march_on(&head);
-		if (head == NULL)
+		if (head == NULL && k == 2)
 			break ;
+		else if (head == NULL)
+		{
+			k++;
+			head = node;
+		}
 		temp = head->link;
 		i = move_ants(&temp, &head, map, i);
 		head = head->next;
-		if (head == NULL && k++ < 2)
+		if (head == NULL && k++ < 3)
 			head = node;
 	}
 	reset_node(node);
@@ -77,6 +82,7 @@ void	node_is_end(t_node *node, t_map *map)
 	{
 		map->n_ants--;
 		node->is_full = FALSE;
+		node->was_visited = FALSE;
 	}
 }
 

@@ -61,8 +61,7 @@ int		set_nodes(char *line, t_node *node, t_map *map, int i)
 
 	ft_printf("%s\n", line);
 	if (i > 0)
-		start_end(node, i);
-	i = 0;
+		i = start_end(node, i);
 	name = ft_word_copy(line, ' ');
 	name_len = ft_strlen(name) + 1;
 	node->name = name;
@@ -72,9 +71,9 @@ int		set_nodes(char *line, t_node *node, t_map *map, int i)
 	count = ft_count_digits(node->x_coord) + 1;
 	line += count;
 	node->y_coord = ft_atoi(line);
-	count += ft_count_digits(node->y_coord);
+	// count += ft_count_digits(node->y_coord);
 	node->link = NULL;
-	line -= name_len + count - 1;
+	line -= name_len + count;
 	if (node->is_end == TRUE)
 		map->end = node;
 	if (node->is_start == TRUE)
@@ -83,11 +82,12 @@ int		set_nodes(char *line, t_node *node, t_map *map, int i)
 		map->start->num_ants = map->n_ants;
 	}
 	map->node_num++;
-	return (i);
-	// ft_strdel(&line);
+	ft_strdel(&line);
+	return (0);
+
 }
 
-void	start_end(t_node *node, int i)
+int		start_end(t_node *node, int i)
 {
 	if (i == 1)
 		node->is_start = TRUE;
@@ -97,6 +97,7 @@ void	start_end(t_node *node, int i)
 		node->is_set = TRUE;
 		node->distance = 0;
 	}
+	return (0);
 }
 
 void	clear_node(t_map *map)
