@@ -6,7 +6,7 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/16 10:21:10 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/09/15 16:33:35 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/09/18 12:08:14 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	set_distance(t_map *map);
 */
 t_node	*node_list(char *line, t_map *map, t_node *head);
 int		set_nodes(char *line, t_node *node, t_map *map, int i);
+int		set_node_params(char *line, t_node *node);
 int		start_end(t_node *node, int i);
 void	clear_node(t_map *map);
 

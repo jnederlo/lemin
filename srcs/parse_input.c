@@ -6,7 +6,7 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/13 11:03:56 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/09/15 17:05:31 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/09/18 16:34:27 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,12 @@ t_node	*parse_input(t_map *map)
 			i = commands(line, node, map, i);
 		else if (*line == '#')
 			comments(line);
+		else if (*line == 0)
+			return (NULL);
 		else if (!ft_strstr(line, "-"))
 			i = set_nodes(line, node, map, i);
 		else
 			set_link(line, head, node);
-		// ft_strdel(&line);
 		if (g_error == -1)
 			return (NULL);
 	}

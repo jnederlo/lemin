@@ -6,7 +6,7 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/13 11:09:48 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/09/14 12:06:19 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/09/18 17:37:07 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int		move_ants(t_link **temp, t_node **head, t_map *map, int i)
 	{
 		if ((*head)->num_ants > 0 &&
 				(*temp)->node->distance < (*head)->distance &&
-				(*temp)->node->was_visited == FALSE &&
+				(*head)->was_visited == FALSE &&
 				(*temp)->node->is_full == FALSE)
 		{
 			(*head)->num_ants--;

@@ -6,7 +6,7 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/19 15:18:16 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/09/15 16:33:45 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/09/18 13:52:20 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,25 +55,9 @@ t_node	*node_list(char *line, t_map *map, t_node *head)
 */
 int		set_nodes(char *line, t_node *node, t_map *map, int i)
 {
-	int		name_len;
-	char	*name;
-	int		count;
-
-	ft_printf("%s\n", line);
 	if (i > 0)
 		i = start_end(node, i);
-	name = ft_word_copy(line, ' ');
-	name_len = ft_strlen(name) + 1;
-	node->name = name;
-	node->num_ants = 0;
-	line += name_len;
-	node->x_coord = ft_atoi(line);
-	count = ft_count_digits(node->x_coord) + 1;
-	line += count;
-	node->y_coord = ft_atoi(line);
-	// count += ft_count_digits(node->y_coord);
-	node->link = NULL;
-	line -= name_len + count;
+	i = set_node_params(line, node);
 	if (node->is_end == TRUE)
 		map->end = node;
 	if (node->is_start == TRUE)
@@ -82,10 +66,37 @@ int		set_nodes(char *line, t_node *node, t_map *map, int i)
 		map->start->num_ants = map->n_ants;
 	}
 	map->node_num++;
-	ft_strdel(&line);
 	return (0);
 
 }
+
+int		set_node_params(char *line, t_node *node)
+{
+	char	*name;
+	int		i;
+
+	if (*line == '#' || *line == 'L')
+		return (g_error = -1);
+	name = ft_word_copy(line, ' ');
+	i = ft_strlen(name) + 1;
+	node->name = name;
+	node->num_ants = 0;
+	if (!ft_isdigit(line[i]))
+		return (g_error = -1);
+	node->x_coord = ft_atoi(&line[i]);
+	i += ft_count_digits(node->x_coord) + 1;
+	if (!ft_isdigit(line[i]))
+		return (g_error = -1);
+	node->y_coord = ft_atoi(&line[i]);
+	i += ft_count_digits(node->y_coord);
+	if (line[i] != 0)
+		return (g_error = -1);
+	ft_printf("%s\n", line);
+	ft_strdel(&line);
+	node->link = NULL;
+	return (0);
+}
+
 
 int		start_end(t_node *node, int i)
 {
