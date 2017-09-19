@@ -81,15 +81,13 @@ int		set_node_params(char *line, t_node *node)
 	i = ft_strlen(name) + 1;
 	node->name = name;
 	node->num_ants = 0;
-	if (!ft_isdigit(line[i]))
-		return (g_error = -1);
+	i += valid_coord(line, i);
 	node->x_coord = ft_atoi(&line[i]);
 	i += ft_count_digits(node->x_coord) + 1;
-	if (!ft_isdigit(line[i]))
-		return (g_error = -1);
+	i += valid_coord(line, i);
 	node->y_coord = ft_atoi(&line[i]);
 	i += ft_count_digits(node->y_coord);
-	if (line[i] != 0)
+	if (line[i] != 0 || g_error == -1)
 		return (g_error = -1);
 	ft_printf("%s\n", line);
 	ft_strdel(&line);
@@ -97,6 +95,21 @@ int		set_node_params(char *line, t_node *node)
 	return (0);
 }
 
+int		valid_coord(char *line, int i)
+{
+	int	k;
+
+	k = i;
+	i = 0;
+	if (line[k] == '-')
+	{
+		k++;
+		i = 1;
+	}
+	if (!ft_isdigit(line[k]))
+		g_error = -1;
+	return (i);
+}
 
 int		start_end(t_node *node, int i)
 {
@@ -109,13 +122,4 @@ int		start_end(t_node *node, int i)
 		node->distance = 0;
 	}
 	return (0);
-}
-
-void	clear_node(t_map *map)
-{
-	map->node->x_coord = -1;
-	map->node->y_coord = -1;
-	map->node->is_full = FALSE;
-	map->node->is_start = FALSE;
-	map->node->is_end = FALSE;
 }

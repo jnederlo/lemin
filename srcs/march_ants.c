@@ -17,13 +17,16 @@ void	march(t_map *map, t_node *head, t_node *node)
 	t_link	*temp;
 	int		i;
 	int		k;
+	int		size;
 
 	k = 0;
 	i = 1;
+	size = (map->n_ants * map->n_ants * map->node_num);
+	size = size > 200 ? 200 : size;
 	while (head)
 	{
 		march_on(&head);
-		if (head == NULL && k == 2)
+		if (head == NULL && k == size)
 			break ;
 		else if (head == NULL)
 		{
@@ -33,7 +36,7 @@ void	march(t_map *map, t_node *head, t_node *node)
 		temp = head->link;
 		i = move_ants(&temp, &head, map, i);
 		head = head->next;
-		if (head == NULL && k++ < 3)
+		if (head == NULL && k++ < (size + 1))
 			head = node;
 	}
 	reset_node(node);

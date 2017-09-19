@@ -68,6 +68,7 @@ int					g_error;
 ** Functions in parse_input.c
 */
 t_node	*parse_input(t_map *map);
+void	map_reader(char *line, t_node *node, t_node *head, t_map *map);
 int		get_ants(char *line, t_map *map);
 int		commands(char *line, t_node *node, t_map *map, int i);
 void	comments(char *line);
@@ -80,7 +81,7 @@ t_node	*node_list(char *line, t_map *map, t_node *head);
 int		set_nodes(char *line, t_node *node, t_map *map, int i);
 int		set_node_params(char *line, t_node *node);
 int		start_end(t_node *node, int i);
-void	clear_node(t_map *map);
+int		valid_coord(char *line, int i);
 
 /*
 ** Functions in links.c

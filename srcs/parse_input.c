@@ -17,44 +17,49 @@ t_node	*parse_input(t_map *map)
 	t_node	*node;
 	t_node	*head;
 	char	*line;
-	int		i;
-	int		k;
 
-	i = 0;
-	k = 0;
 	head = NULL;
 	line = NULL;
 	while (get_next_line(0, &line) > 0)
 	{
 		!head ? head = node_list(line, map, head) : 0;
 		node = node_list(line, map, head);
-		if (ft_isdigit((char)*line) && k == 0)
-			k = get_ants(line, map);
-		else if (*line == '#' && *(line + 1) == '#')
-			i = commands(line, node, map, i);
-		else if (*line == '#')
-			comments(line);
-		else if (*line == 0)
+		if (*line == 0)
 			return (NULL);
-		else if (!ft_strstr(line, "-"))
-			i = set_nodes(line, node, map, i);
 		else
-			set_link(line, head, node);
+			map_reader(line, node, head, map);
 		if (g_error == -1)
 			return (NULL);
 	}
-	if (!(map->end || map->start))
+	if (!map->end->link || !map->start->link)
+		return (NULL);
+	if (!map->end || !map->start)
 		return (NULL);
 	set_distance(map);
 	return (head);
 }
 
-int		get_ants(char *line, t_map *map)
+void	map_reader(char *line, t_node *node, t_node *head, t_map *map)
 {
-	map->n_ants = ft_atoi(line);
-	ft_printf("%d\n", map->n_ants);
-	ft_strdel(&line);
-	return (1);
+	int	i;
+
+	i = 0;
+	if (!line)
+		return ;
+	if (ft_isdigit((char)*line) && !map->n_ants)
+	{
+		map->n_ants = ft_atoi(line);
+		ft_printf("%d\n", map->n_ants);
+		ft_strdel(&line);
+	}
+	else if (*line == '#' && *(line + 1) == '#')
+		i = commands(line, node, map, i);
+	else if (*line == '#')
+		comments(line);
+	else if (!ft_strstr(line, "-"))
+		i = set_nodes(line, node, map, i);
+	else
+		set_link(line, head, node);
 }
 
 int		commands(char *line, t_node *node, t_map *map, int i)

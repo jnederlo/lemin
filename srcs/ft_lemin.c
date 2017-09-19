@@ -30,9 +30,9 @@ int		main()
 	ft_printf("\n");
 	while (map->n_ants > 0)
 		march(map, head, node);
-	// free_up(head);
-	// free(head);
-	// free(map);
+	free_up(head);
+	free(head);
+	free(map);
 	// while (1);
 	return (0);
 }
