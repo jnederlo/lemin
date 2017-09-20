@@ -6,7 +6,7 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/13 11:03:56 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/09/18 16:34:27 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/09/19 16:13:53 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_node	*parse_input(t_map *map)
 	{
 		!head ? head = node_list(line, map, head) : 0;
 		node = node_list(line, map, head);
+		map->node = head;
 		if (*line == 0)
 			return (NULL);
 		else
@@ -31,9 +32,9 @@ t_node	*parse_input(t_map *map)
 		if (g_error == -1)
 			return (NULL);
 	}
-	if (!map->end->link || !map->start->link)
-		return (NULL);
 	if (!map->end || !map->start)
+		return (NULL);
+	if (!map->end->link || !map->start->link)
 		return (NULL);
 	set_distance(map);
 	return (head);
@@ -44,7 +45,7 @@ void	map_reader(char *line, t_node *node, t_node *head, t_map *map)
 	int	i;
 
 	i = 0;
-	if (!line)
+	if (!line || g_error == -1)
 		return ;
 	if (ft_isdigit((char)*line) && !map->n_ants)
 	{
@@ -59,22 +60,27 @@ void	map_reader(char *line, t_node *node, t_node *head, t_map *map)
 	else if (!ft_strstr(line, "-"))
 		i = set_nodes(line, node, map, i);
 	else
-		set_link(line, head, node);
+		set_link(line, head, node, map);
 }
 
 int		commands(char *line, t_node *node, t_map *map, int i)
 {
 	if ((ft_strequ(line, "##start") == 1 || ft_strequ(line, "##end") == 1))
 	{
+		if (!map->n_ants)
+			return (g_error = -1);
+		if (ft_strequ(line, "##start") == 1 && map->start)
+			return (g_error = -1);
+		if (ft_strequ(line, "##end") == 1 && map->end)
+			return (g_error = -1);
 		ft_printf("%s\n", line);
 		i = ft_strequ(line, "##start") ? 1 : 2;
 		ft_strdel(&line);
 		get_next_line(0, &line);
 		if (*line == '#' || *line == 'L')
 		{
-			g_error = -1;
 			ft_strdel(&line);
-			return (g_error);
+			return (g_error = -1);
 		}
 		set_nodes(line, node, map, i);
 	}

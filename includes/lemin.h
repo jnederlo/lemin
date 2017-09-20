@@ -6,7 +6,7 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/16 10:21:10 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/09/18 12:08:14 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/09/19 16:07:54 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int					g_error;
 ** Functions in parse_input.c
 */
 t_node	*parse_input(t_map *map);
+// void	duplicate_name(t_node *node, t_node *head);
 void	map_reader(char *line, t_node *node, t_node *head, t_map *map);
 int		get_ants(char *line, t_map *map);
 int		commands(char *line, t_node *node, t_map *map, int i);
@@ -79,14 +80,15 @@ void	set_distance(t_map *map);
 */
 t_node	*node_list(char *line, t_map *map, t_node *head);
 int		set_nodes(char *line, t_node *node, t_map *map, int i);
-int		set_node_params(char *line, t_node *node);
+int		set_node_params(char *line, t_node *node, t_map *map);
+void	duplicate_name(t_node *node, t_map *map);
 int		start_end(t_node *node, int i);
 int		valid_coord(char *line, int i);
 
 /*
 ** Functions in links.c
 */
-void	set_link(char *line, t_node *head, t_node *node);
+void	set_link(char *line, t_node *head, t_node *node, t_map *map);
 void	first_link(char *line, t_node *head, t_node *node);
 t_node	*traverse_list(t_node *node, char *name);
 t_link	*link_list(t_node *node, t_link *link);
