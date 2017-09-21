@@ -17,7 +17,9 @@ int		main()
 	t_map	*map;
 	t_node	*head;
 	t_node	*node;
+	int		i;
 
+	i = 1;
 	map = ft_memalloc(sizeof(t_map));
 	//maybe add error check for valid file??
 	head = parse_input(map);
@@ -29,7 +31,10 @@ int		main()
 	node = head;
 	ft_printf("\n");
 	while (map->n_ants > 0)
-		march(map, head, node);
+	{
+		map->new_turn = TRUE;
+		i = march(map, head, node, i);
+	}
 	free_up(head);
 	free(head);
 	free(map);

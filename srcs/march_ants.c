@@ -12,17 +12,18 @@
 
 #include "lemin.h"
 
-void	march(t_map *map, t_node *head, t_node *node)
+int		march(t_map *map, t_node *head, t_node *node, int i)
 {
 	t_link	*temp;
-	int		i;
+	// int		i;
 	int		k;
 	int		size;
 
 	k = 0;
-	i = 1;
+	// i = 1;
 	size = (map->n_ants * map->n_ants * map->node_num);
 	size = size > 200 ? 200 : size;
+	// size = 1;
 	while (head)
 	{
 		march_on(&head);
@@ -41,7 +42,8 @@ void	march(t_map *map, t_node *head, t_node *node)
 	}
 	reset_node(node);
 	ft_printf("\n");
-	i = 1;
+	return (i);
+	// i = 1;
 }
 
 void	march_on(t_node **head)
@@ -64,15 +66,25 @@ int		move_ants(t_link **temp, t_node **head, t_map *map, int i)
 				(*head)->was_visited == FALSE &&
 				(*temp)->node->is_full == FALSE)
 		{
+			// ft_printf("head->ant_num = %d\n", (*head)->ant_num);
+			if ((*head) == map->start)
+			{
+				(*head)->ant_num = i;
+				i++;
+			}
 			(*head)->num_ants--;
 			(*head)->is_full = FALSE;
+			(*temp)->node->ant_num = (*head)->ant_num;
 			(*temp)->node->num_ants++;
 			(*temp)->node->is_full = TRUE;
 			(*temp)->node->was_visited = TRUE;
 			(*temp)->node->is_end ? node_is_end((*temp)->node, map) : 0;
-			i > 1 ? ft_printf(" ") : 0;
-			ft_printf("L%d-%s", i, (*temp)->node->name);
-			i++;
+			if (map->new_turn == FALSE)
+				ft_printf(" ");
+			map->new_turn = FALSE;
+			// map->new_turn = map->new_turn == FALSE ?  : map->new_turn = TRUE;
+			ft_printf("L%d-%s", (*temp)->node->ant_num, (*temp)->node->name);
+			// i++;
 		}
 		*temp = (*temp)->next;
 	}

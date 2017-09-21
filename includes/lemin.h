@@ -31,6 +31,7 @@ typedef struct		s_node
 	t_bool			is_start;
 	t_bool			is_end;
 	t_bool			is_set;
+	int				ant_num;
 	char			*name;
 	int				num_ants;
 	int				node_num;
@@ -56,6 +57,7 @@ typedef struct		s_queue
 typedef struct		s_map
 {
 	int				n_ants;
+	t_bool			new_turn;
 	t_node			*node;
 	t_node			*start;
 	t_node			*end;
@@ -102,7 +104,7 @@ void	dequeue(t_queue **front);
 /*
 ** Functions in march_ants.c
 */
-void	march(t_map *map, t_node *head, t_node *node);
+int		march(t_map *map, t_node *head, t_node *node, int i);
 void	march_on(t_node **head);
 int		move_ants(t_link **temp, t_node **head, t_map *map, int i);
 void	node_is_end(t_node *node, t_map *map);
