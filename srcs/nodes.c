@@ -6,7 +6,7 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/19 15:18:16 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/09/18 13:52:20 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/09/19 16:08:26 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int		set_nodes(char *line, t_node *node, t_map *map, int i)
 {
 	if (i > 0)
 		i = start_end(node, i);
-	i = set_node_params(line, node);
+	i = set_node_params(line, node, map);
 	if (node->is_end == TRUE)
 		map->end = node;
 	if (node->is_start == TRUE)
@@ -70,7 +70,7 @@ int		set_nodes(char *line, t_node *node, t_map *map, int i)
 
 }
 
-int		set_node_params(char *line, t_node *node)
+int		set_node_params(char *line, t_node *node, t_map *map)
 {
 	char	*name;
 	int		i;
@@ -87,12 +87,31 @@ int		set_node_params(char *line, t_node *node)
 	i += valid_coord(line, i);
 	node->y_coord = ft_atoi(&line[i]);
 	i += ft_count_digits(node->y_coord);
+	duplicate_name(node, map);
 	if (line[i] != 0 || g_error == -1)
 		return (g_error = -1);
 	ft_printf("%s\n", line);
 	ft_strdel(&line);
 	node->link = NULL;
 	return (0);
+}
+
+void	duplicate_name(t_node *node, t_map *map)
+{
+	t_node	*head;
+
+	head = map->node;
+	while (head)
+	{
+		if (ft_strequ(node->name, head->name) &&
+			node->x_coord != head->x_coord &&
+			node->y_coord != head->y_coord)
+		{
+			g_error = -1;
+			return ;
+		}
+		head = head->next;
+	}
 }
 
 int		valid_coord(char *line, int i)

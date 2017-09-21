@@ -6,7 +6,7 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/19 15:18:01 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/09/15 14:47:27 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/09/19 14:13:12 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 ** The links point to another complete node. So the linked list internal to
 ** each node has links to another nodes.
 */
-void	set_link(char *line, t_node *head, t_node *node)
+void	set_link(char *line, t_node *head, t_node *node, t_map *map)
 {
 	char	*node_name;
 	char	*link_name;
@@ -29,6 +29,11 @@ void	set_link(char *line, t_node *head, t_node *node)
 	int		i;
 
 	i = 0;
+	if (!map->end || !map->start)
+	{
+		g_error = -1;
+		return ;
+	}
 	if (*line == '\n')
 		return ;
 	if (*line == '#')

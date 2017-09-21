@@ -6,7 +6,7 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/16 10:46:41 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/09/15 17:09:40 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/09/19 13:51:37 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int		main()
 
 	i = 1;
 	map = ft_memalloc(sizeof(t_map));
-	//maybe add error check for valid file??
 	head = parse_input(map);
 	if (head == NULL)
 	{
