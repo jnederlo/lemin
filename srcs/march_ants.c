@@ -16,15 +16,14 @@ int		march(t_map *map, t_node *head, t_node *node, int i)
 {
 	t_link	*temp;
 	int		k;
-	int		size;
 
 	k = 0;
-	size = (map->n_ants * map->n_ants * map->node_num);
-	size = size > 200 ? 200 : size;
+	map->size = map->n_ants * map->n_ants * map->node_num;
+	map->size = map->size > 200 ? 200 : map->size;
 	while (head)
 	{
 		march_on(&head);
-		if (head == NULL && k == size)
+		if (head == NULL && k == map->size)
 			break ;
 		else if (head == NULL)
 		{
@@ -34,8 +33,7 @@ int		march(t_map *map, t_node *head, t_node *node, int i)
 		temp = head->link;
 		i = move_ants(&temp, &head, map, i);
 		head = head->next;
-		if (head == NULL && k++ < (size + 1))
-			head = node;
+		(head == NULL && k++ < (map->size + 1)) ? head = node : 0;
 	}
 	reset_node(node);
 	ft_printf("\n");
@@ -63,10 +61,7 @@ int		move_ants(t_link **temp, t_node **head, t_map *map, int i)
 				(*temp)->node->is_full == FALSE)
 		{
 			if ((*head) == map->start)
-			{
-				(*head)->ant_num = i;
-				i++;
-			}
+				(*head)->ant_num = i++;
 			(*head)->num_ants--;
 			(*head)->is_full = FALSE;
 			(*temp)->node->ant_num = (*head)->ant_num;

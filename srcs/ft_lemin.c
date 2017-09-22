@@ -28,7 +28,7 @@ int		main()
 	{
 		free_nodes(map->node);
 		ft_printf("ERROR\n");
-		while (1);
+		// while (1);
 		return (0);
 	}
 	node = head;
@@ -40,7 +40,7 @@ int		main()
 	}
 	free_nodes(node);
 	free(map);
-	while (1);
+	// while (1);
 	return (0);
 }
 

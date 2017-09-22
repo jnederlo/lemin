@@ -56,6 +56,7 @@ typedef struct		s_queue
 
 typedef struct		s_map
 {
+	int				size;
 	int				n_ants;
 	t_bool			new_turn;
 	t_node			*node;
