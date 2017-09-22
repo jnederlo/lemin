@@ -6,7 +6,7 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/16 10:21:10 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/09/21 13:33:09 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/09/21 17:47:06 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ int					g_error;
 ** Functions in parse_input.c
 */
 t_node	*parse_input(t_map *map);
-// void	duplicate_name(t_node *node, t_node *head);
 void	map_reader(char *line, t_node *node, t_node *head, t_map *map);
 int		get_ants(char *line, t_map *map);
 int		commands(char *line, t_node *node, t_map *map, int i);

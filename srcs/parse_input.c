@@ -6,7 +6,7 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/13 11:03:56 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/09/21 17:28:45 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/09/21 17:46:18 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void	set_distance(t_map *map)
 		temp = current->link;
 		while (temp && temp->node)
 		{
-			if (temp->node->is_set == FALSE)//maybe add in to if (if) the node number exists but is larger.
+			if (temp->node->is_set == FALSE)
 				enqueue(&front, &rear, temp, current);
 			temp = temp->next;
 		}
