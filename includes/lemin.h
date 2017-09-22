@@ -69,7 +69,7 @@ int					g_error;
 /*
 ** Functions in parse_input.c
 */
-t_node	*parse_input(t_map *map);
+t_node	*parse_input(t_map *map, t_node *head, t_node *node);
 void	map_reader(char *line, t_node *node, t_node *head, t_map *map);
 int		get_ants(char *line, t_map *map);
 int		commands(char *line, t_node *node, t_map *map, int i);
@@ -112,6 +112,5 @@ void	node_is_end(t_node *node, t_map *map);
 void	reset_node(t_node *node);
 
 void	print_nodes(t_node *node);
-void	free_up(t_node *head);
-void	free_nodes(t_node *node);
+void	free_nodes(t_node *head);
 #endif

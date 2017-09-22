@@ -12,13 +12,10 @@
 
 #include "lemin.h"
 
-t_node	*parse_input(t_map *map)
+t_node	*parse_input(t_map *map, t_node *head, t_node *node)
 {
-	t_node	*node;
-	t_node	*head;
 	char	*line;
 
-	head = NULL;
 	line = NULL;
 	while (get_next_line(0, &line) > 0)
 	{
@@ -70,16 +67,11 @@ int		commands(char *line, t_node *node, t_map *map, int i)
 {
 	if ((ft_strequ(line, "##start") == 1 || ft_strequ(line, "##end") == 1))
 	{
-		if (!map->n_ants)
-			g_error = -1;
-		else if (ft_strequ(line, "##start") == 1 && map->start)
-			g_error = -1;
-		else if (ft_strequ(line, "##end") == 1 && map->end)
-			g_error = -1;
-		if (g_error == -1)
+		if (!map->n_ants || (ft_strequ(line, "##start") == 1 && map->start) ||
+				(ft_strequ(line, "##end") == 1 && map->end))
 		{
 			ft_strdel(&line);
-			return (g_error);
+			return (g_error = -1);
 		}
 		ft_printf("%s\n", line);
 		i = ft_strequ(line, "##start") ? 1 : 2;

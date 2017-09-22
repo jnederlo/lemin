@@ -20,13 +20,15 @@ int		main()
 	int		i;
 
 	i = 1;
+	head = NULL;
+	node = NULL;
 	map = ft_memalloc(sizeof(t_map));
-	head = parse_input(map);
+	head = parse_input(map, head, node);
 	if (head == NULL)
 	{
-		free_up(map->node);
 		free_nodes(map->node);
 		ft_printf("ERROR\n");
+		while (1);
 		return (0);
 	}
 	node = head;
@@ -36,26 +38,10 @@ int		main()
 		map->new_turn = TRUE;
 		i = march(map, head, node, i);
 	}
-	free_up(node);
 	free_nodes(node);
 	free(map);
+	while (1);
 	return (0);
-}
-
-void	free_nodes(t_node *node)
-{
-	t_node	*temp;
-	t_node	*copy;
-
-	while (node)
-	{
-		copy = node;
-		node->next ? temp = node->next : 0;
-		free(node);
-		node = temp;
-		if (node == copy)
-			break ;
-	}
 }
 
 void	print_nodes(t_node *node)
@@ -82,14 +68,17 @@ void	print_nodes(t_node *node)
 	}
 }
 
-void	free_up(t_node *head)
+void	free_nodes(t_node *head)
 {
 	t_node	*temp_node;
 	t_link	*temp_link;
+	t_node	*copy;
 
 	temp_link = NULL;
+	temp_node = NULL;
 	while (head)
 	{
+		copy = head;
 		while (head->link)
 		{
 			head->link->next ? temp_link = head->link->next : 0;
@@ -101,8 +90,9 @@ void	free_up(t_node *head)
 		}
 		head->next ? temp_node = head->next : 0;
 		ft_strdel(&(head)->name);
-		if (!head->next)
-			return ;
+		free(head);
 		head = temp_node;
+		if (head == copy)
+			break;
 	}
 }
