@@ -12,7 +12,6 @@
 
 #include "lemin.h"
 
-
 /*
 ** Sets up the linked list structure for the nodes as they are read in from
 ** the input. It will then add nodes to the linked list as it continues
@@ -44,19 +43,16 @@ t_node	*node_list(char *line, t_map *map, t_node *head)
 	return (node);
 }
 
-/*
-** fills in the following struct fields for each node:
-**	- name
-**	- x_coord
-**	- y_coord
-**	- link
-**
-** increases the map->node_num count by 1 (used in node linked list).
-*/
 int		set_nodes(char *line, t_node *node, t_map *map, int i)
 {
-	if (i > 0)
-		i = start_end(node, i);
+	if (i == 1)
+		node->is_start = TRUE;
+	else if (i == 2)
+	{
+		node->is_end = TRUE;
+		node->is_set = TRUE;
+		node->distance = 0;
+	}
 	i = set_node_params(line, node, map);
 	if (g_error == -1)
 		ft_strdel(&line);
@@ -69,7 +65,6 @@ int		set_nodes(char *line, t_node *node, t_map *map, int i)
 	}
 	map->node_num++;
 	return (0);
-
 }
 
 int		set_node_params(char *line, t_node *node, t_map *map)
@@ -130,17 +125,4 @@ int		valid_coord(char *line, int i)
 	if (!ft_isdigit(line[k]))
 		g_error = -1;
 	return (i);
-}
-
-int		start_end(t_node *node, int i)
-{
-	if (i == 1)
-		node->is_start = TRUE;
-	else
-	{
-		node->is_end = TRUE;
-		node->is_set = TRUE;
-		node->distance = 0;
-	}
-	return (0);
 }

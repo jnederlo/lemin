@@ -28,20 +28,8 @@ void	set_link(char *line, t_node *head, t_node *node, t_map *map)
 	t_node	*copy;
 	int		i;
 
-	i = 0;
-	if (!map->end || !map->start)
-	{
-		ft_strdel(&line);
-		g_error = -1;
+	if (bad_links(map, line))
 		return ;
-	}
-	if (*line == '\n')
-		return ;
-	if (*line == '#')
-	{
-		ft_printf("%s\n", line);
-		return ;
-	}
 	copy = head;
 	ft_printf("%s\n", line);
 	node_name = ft_word_copy(line, '-');
@@ -58,6 +46,24 @@ void	set_link(char *line, t_node *head, t_node *node, t_map *map)
 	ft_strdel(&node_name);
 	reverse_link(head, node);
 	ft_strdel(&line);
+}
+
+int		bad_links(t_map *map, char *line)
+{
+	if (!map->end || !map->start)
+	{
+		ft_strdel(&line);
+		g_error = -1;
+		return (1);
+	}
+	if (*line == '\n')
+		return (1);
+	if (*line == '#')
+	{
+		ft_printf("%s\n", line);
+		return (1);
+	}
+	return (0);
 }
 
 /*

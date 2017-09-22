@@ -16,11 +16,11 @@
 # include "../libft/includes/libft.h"
 # include "../libft/includes/ft_printf.h"
 
-typedef enum	e_bool
+typedef enum		e_bool
 {
 	FALSE,
 	TRUE
-}				t_bool;
+}					t_bool;
 
 typedef struct		s_node
 {
@@ -70,48 +70,51 @@ int					g_error;
 /*
 ** Functions in parse_input.c
 */
-t_node	*parse_input(t_map *map, t_node *head, t_node *node);
-void	map_reader(char *line, t_node *node, t_node *head, t_map *map);
-int		get_ants(char *line, t_map *map);
-int		commands(char *line, t_node *node, t_map *map, int i);
-void	comments(char *line);
-void	set_distance(t_map *map);
+t_node				*parse_input(t_map *map, t_node *head, t_node *node);
+void				map_reader(char *line, t_node *node,
+								t_node *head, t_map *map);
+int					commands(char *line, t_node *node, t_map *map, int i);
+void				comments(char *line);
+void				set_distance(t_map *map);
 
 /*
 ** Functions in nodes.c
 */
-t_node	*node_list(char *line, t_map *map, t_node *head);
-int		set_nodes(char *line, t_node *node, t_map *map, int i);
-int		set_node_params(char *line, t_node *node, t_map *map);
-void	duplicate_name(t_node *node, t_map *map);
-int		start_end(t_node *node, int i);
-int		valid_coord(char *line, int i);
+t_node				*node_list(char *line, t_map *map, t_node *head);
+int					set_nodes(char *line, t_node *node, t_map *map, int i);
+int					set_node_params(char *line, t_node *node, t_map *map);
+void				duplicate_name(t_node *node, t_map *map);
+int					valid_coord(char *line, int i);
 
 /*
 ** Functions in links.c
 */
-void	set_link(char *line, t_node *head, t_node *node, t_map *map);
-void	first_link(char *line, t_node *head, t_node *node);
-t_node	*traverse_list(t_node *node, char *name);
-t_link	*link_list(t_node *node, t_link *link);
-void	reverse_link(t_node *node, t_node *head);
-void	next_link(t_node *head, t_node *node, t_node *copy);
+void				set_link(char *line, t_node *head,
+								t_node *node, t_map *map);
+int					bad_links(t_map *map, char *line);
+t_node				*traverse_list(t_node *node, char *name);
+t_link				*link_list(t_node *node, t_link *link);
+void				reverse_link(t_node *node, t_node *head);
 
 /*
 ** Functions in queue.c
 */
-void	enqueue(t_queue **front, t_queue **rear, t_link *link, t_node *current);
-void	dequeue(t_queue **front);
+void				enqueue(t_queue **front, t_queue **rear,
+								t_link *link, t_node *current);
+void				dequeue(t_queue **front);
 
 /*
 ** Functions in march_ants.c
 */
-int		march(t_map *map, t_node *head, t_node *node, int i);
-void	march_on(t_node **head);
-int		move_ants(t_link **temp, t_node **head, t_map *map, int i);
-void	node_is_end(t_node *node, t_map *map);
-void	reset_node(t_node *node);
+int					march(t_map *map, t_node *head, t_node *node, int i);
+void				march_on(t_node **head);
+int					move_ants(t_link **temp, t_node **head, t_map *map, int i);
+void				node_is_end(t_node *node, t_map *map);
+void				reset_node(t_node *node);
 
-void	print_nodes(t_node *node);
-void	free_nodes(t_node *head);
+/*
+** Functions in ft_lemin.c (inluding main())
+*/
+void				print_nodes(t_node *node);
+void				free_nodes(t_node *head);
 #endif
