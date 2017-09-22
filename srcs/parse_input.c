@@ -6,7 +6,7 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/13 11:03:56 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/09/19 16:13:53 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/09/21 17:28:45 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,16 @@ t_node	*parse_input(t_map *map)
 		node = node_list(line, map, head);
 		map->node = head;
 		if (*line == 0)
+		{
+			ft_strdel(&line);
 			return (NULL);
+		}
 		else
 			map_reader(line, node, head, map);
 		if (g_error == -1)
 			return (NULL);
 	}
-	if (!map->end || !map->start)
+	if (!line)
 		return (NULL);
 	if (!map->end->link || !map->start->link)
 		return (NULL);
@@ -68,11 +71,16 @@ int		commands(char *line, t_node *node, t_map *map, int i)
 	if ((ft_strequ(line, "##start") == 1 || ft_strequ(line, "##end") == 1))
 	{
 		if (!map->n_ants)
-			return (g_error = -1);
-		if (ft_strequ(line, "##start") == 1 && map->start)
-			return (g_error = -1);
-		if (ft_strequ(line, "##end") == 1 && map->end)
-			return (g_error = -1);
+			g_error = -1;
+		else if (ft_strequ(line, "##start") == 1 && map->start)
+			g_error = -1;
+		else if (ft_strequ(line, "##end") == 1 && map->end)
+			g_error = -1;
+		if (g_error == -1)
+		{
+			ft_strdel(&line);
+			return (g_error);
+		}
 		ft_printf("%s\n", line);
 		i = ft_strequ(line, "##start") ? 1 : 2;
 		ft_strdel(&line);
@@ -84,6 +92,8 @@ int		commands(char *line, t_node *node, t_map *map, int i)
 		}
 		set_nodes(line, node, map, i);
 	}
+	else
+		ft_strdel(&line);
 	return (0);
 }
 

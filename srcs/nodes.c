@@ -6,7 +6,7 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/19 15:18:16 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/09/19 16:08:26 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/09/21 16:35:33 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ int		set_nodes(char *line, t_node *node, t_map *map, int i)
 	if (i > 0)
 		i = start_end(node, i);
 	i = set_node_params(line, node, map);
+	if (g_error == -1)
+		ft_strdel(&line);
 	if (node->is_end == TRUE)
 		map->end = node;
 	if (node->is_start == TRUE)

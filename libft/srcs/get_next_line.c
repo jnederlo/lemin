@@ -6,7 +6,7 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/11 13:23:08 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/09/15 17:34:40 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/09/21 11:29:00 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,9 @@ int		read_buf(char *buf, char *temp, char **line, const int fd)
 		*line = temp;
 		ft_bzero(buf, BUFF_SIZE + 1);
 		return (1);
-	}if (read_ret == 0 && ft_strlen(temp) == 0)
-	{
-		free(temp);
 	}
+	if (read_ret == 0 && ft_strlen(temp) == 0)
+		free(temp);
 	return (read_ret);
 }
 

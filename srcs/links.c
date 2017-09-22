@@ -6,7 +6,7 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/19 15:18:01 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/09/19 14:13:12 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/09/21 16:33:34 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	set_link(char *line, t_node *head, t_node *node, t_map *map)
 	i = 0;
 	if (!map->end || !map->start)
 	{
+		ft_strdel(&line);
 		g_error = -1;
 		return ;
 	}

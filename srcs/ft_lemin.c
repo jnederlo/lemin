@@ -6,7 +6,7 @@
 /*   By: jnederlo <jnederlo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/16 10:46:41 by jnederlo          #+#    #+#             */
-/*   Updated: 2017/09/19 13:51:37 by jnederlo         ###   ########.fr       */
+/*   Updated: 2017/09/21 17:41:19 by jnederlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int		main()
 	head = parse_input(map);
 	if (head == NULL)
 	{
+		free_up(map->node);
+		free_nodes(map->node);
 		ft_printf("ERROR\n");
 		return (0);
 	}
@@ -34,11 +36,26 @@ int		main()
 		map->new_turn = TRUE;
 		i = march(map, head, node, i);
 	}
-	free_up(head);
-	free(head);
+	free_up(node);
+	free_nodes(node);
 	free(map);
-	// while (1);
 	return (0);
+}
+
+void	free_nodes(t_node *node)
+{
+	t_node	*temp;
+	t_node	*copy;
+
+	while (node)
+	{
+		copy = node;
+		node->next ? temp = node->next : 0;
+		free(node);
+		node = temp;
+		if (node == copy)
+			break ;
+	}
 }
 
 void	print_nodes(t_node *node)
@@ -67,14 +84,25 @@ void	print_nodes(t_node *node)
 
 void	free_up(t_node *head)
 {
+	t_node	*temp_node;
+	t_link	*temp_link;
+
+	temp_link = NULL;
 	while (head)
 	{
 		while (head->link)
 		{
+			head->link->next ? temp_link = head->link->next : 0;
 			free(head->link);
-			head->link = head->link->next;
+			if (!temp_link)
+				break ;
+			head->link = temp_link;
+			temp_link = NULL;
 		}
-		free(head->name);
-		head = head->next;
+		head->next ? temp_node = head->next : 0;
+		ft_strdel(&(head)->name);
+		if (!head->next)
+			return ;
+		head = temp_node;
 	}
 }
